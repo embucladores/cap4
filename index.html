@@ -2,14 +2,20 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Rivalidad - Capítulo 4</title>
 <link rel="icon" type="image/png" href="1000014982.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* Variables y Reset */
-* { margin:0; padding:0; box-sizing:border-box; cursor: none !important; }
+* { margin:0; padding:0; box-sizing:border-box; }
+
+/* Solo mostrar cursor personalizado en dispositivos con puntero (PC) */
+@media (pointer: fine) {
+    * { cursor: none !important; }
+}
+
 :root {
   --viajero-color: #ff6600; 
   --viajero-glow: #ffae00;
@@ -21,12 +27,14 @@
 }
 
 html, body { 
-  height: 100%; 
+  min-height: 100%; 
   font-family: var(--font); 
   background: #06070e url('1000014974.jpg') no-repeat center center fixed; 
   background-size: cover;
   color: #ccc; 
-  overflow: hidden;
+  /* Permitir scroll en móvil */
+  overflow-x: hidden;
+  overflow-y: auto;
   -webkit-user-select: none; 
   user-select: none;
 }
@@ -35,7 +43,7 @@ body::before {
   content: "";
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 1;
 }
 
@@ -50,61 +58,43 @@ body::before {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s;
+  transition: transform 0.8s ease-in-out, opacity 0.5s;
 }
 
 #startup-menu::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   z-index: -1;
 }
 
-.menu-content { text-align: center; animation: fadeIn 1.5s ease-out; }
+.menu-content { text-align: center; padding: 20px; }
 
 .menu-logo-big {
-  height: 180px;
-  width: auto;
-  margin-bottom: 40px;
-  filter: drop-shadow(0 0 25px var(--gold-glow));
+  max-width: 80%;
+  height: auto;
+  margin-bottom: 30px;
+  filter: drop-shadow(0 0 15px var(--gold-glow));
   animation: pulseLogo 3s infinite ease-in-out;
 }
 
 .start-btn {
-  padding: 18px 50px;
+  padding: 15px 30px;
   font-family: var(--font);
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: #000;
   background: var(--gold);
   border: none;
   border-radius: 4px;
-  cursor: none !important;
-  letter-spacing: 4px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   box-shadow: 0 0 20px rgba(201, 162, 39, 0.5);
-  transition: 0.3s;
-}
-
-.start-btn:hover {
-  transform: scale(1.1);
-  background: #fff;
-  box-shadow: 0 0 30px #fff;
 }
 
 .menu-hidden { transform: translateY(-100%) !important; opacity: 0; pointer-events: none; }
 
-@keyframes pulseLogo {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* CURSOR */
+/* CURSOR (Oculto en móvil) */
 #custom-cursor {
   position: fixed;
   width: 25px; height: 25px;
@@ -114,137 +104,135 @@ body::before {
   z-index: 30000;
   transform: translate(-50%, -50%);
   box-shadow: 0 0 10px var(--gold-glow);
-  transition: width 0.1s, height 0.1s;
+  display: none; /* Se activa por JS solo si hay ratón */
 }
-#custom-cursor::after {
-  content: ''; position: absolute; top: 50%; left: 50%;
-  width: 4px; height: 4px; background: var(--gold-glow);
-  border-radius: 50%; transform: translate(-50%, -50%);
-}
-#custom-cursor.clicking { width: 15px; height: 15px; border-color: #fff; }
 
 #canvas{ position:fixed; inset:0; pointer-events:none; z-index:2; }
 
 .page{ 
   position:relative; 
   z-index:3; 
-  min-height: 100vh; 
-  display:flex; 
-  flex-direction:column; 
-  align-items:center; 
-  justify-content:center; 
-  padding: 10px 16px 20px; 
+  width: 100%;
+  padding: 80px 15px 40px; 
 }
 
 .main-card{
-  width:100%; max-width:1200px;
-  background: rgba(8, 9, 18, 0.45); 
+  width:100%; 
+  max-width:1100px;
+  margin: 0 auto;
+  background: rgba(8, 9, 18, 0.7); 
   border:1px solid rgba(255,255,255,0.1);
-  border-radius:6px;
+  border-radius:12px;
   backdrop-filter:blur(15px);
-  box-shadow: 0 40px 100px rgba(0,0,0,0.9);
   overflow:hidden;
-  animation:cardIn 1s cubic-bezier(.2,0,.2,1) both;
 }
-@keyframes cardIn{ from{opacity:0;transform:translateY(40px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
 
-.card-header { text-align: center; padding: 15px 24px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.card-header { text-align: center; padding: 30px 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.top-logo-img { height: 50px; width: auto; margin-bottom: 15px; }
 
-.top-logo-container { display: flex; justify-content: center; width: 100%; margin-bottom: 10px; }
-.top-logo-img { height: 60px; width: auto; filter: drop-shadow(0 0 12px rgba(201, 162, 39, 0.6)); pointer-events: none; }
+.main-title{ 
+    font-size: clamp(1.2rem, 6vw, 2.5rem); 
+    line-height: 1.2;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg,#fff,var(--gold-glow),#fff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
 
-.main-title{ font-size:clamp(1.5rem,4vw,2.8rem); font-weight:bold; background:linear-gradient(135deg,#fff,var(--gold-glow),#fff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:2px; margin-bottom: 5px; }
-.main-subtitle{ font-size: 0.8rem; color: var(--gold); letter-spacing: 2px; opacity: 0.8; max-width: 800px; margin: 0 auto; }
+.main-subtitle { font-size: 0.75rem; color: #aaa; line-height: 1.5; }
 
-.voto-subtitle { font-size: 0.85rem; color: #a0d8f5; margin: 15px 0; letter-spacing: 2px; text-transform: uppercase; text-align: center; text-shadow: 0 0 8px rgba(91, 184, 232, 0.4); }
+.voto-subtitle { 
+    font-size: 0.8rem; 
+    color: var(--cel-glow); 
+    padding: 20px; 
+    text-align: center; 
+    text-transform: uppercase;
+}
 
-.fighters{ display:grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; }
-.fighter{ display:flex; flex-direction:column; align-items:center; justify-content: space-between; padding:20px 15px 30px; }
-.vs-divider { display: flex; align-items: center; font-size: 1.2rem; color: var(--gold); opacity: 0.4; font-weight: bold; }
+/* Grid Responsiva: 1 columna en móvil, 3 en PC */
+.fighters {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 0 15px 30px;
+}
 
-.img-container { height: 220px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
-.viajero-img, .blanco-img, .rey-img { max-height: 100%; width: auto; animation: float 4s infinite ease-in-out; }
-@keyframes float { 0%,100% {transform:translateY(0)} 50% {transform:translateY(-15px)} }
+@media (min-width: 992px) {
+    .fighters {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0;
+    }
+    .vs-divider { display: flex; }
+    #custom-cursor { display: block; }
+}
 
-.fname{ font-size:1.1rem; margin-bottom:10px; text-align: center; }
-.finfo{ font-size:0.75rem; text-align:center; color:#aab; margin-bottom:20px; max-width:200px; min-height: 40px; display: flex; align-items: center;}
+.fighter { 
+    padding: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.02);
+}
 
-.btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center; }
+.vs-divider { display: none; align-items: center; justify-content: center; color: var(--gold); opacity: 0.3; }
+
+.img-container { 
+    height: 180px; 
+    width: 100%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 15px 0;
+}
+.img-container img { max-height: 100%; max-width: 100%; object-fit: contain; }
+
+.fname { font-size: 1.1rem; margin-bottom: 10px; font-weight: bold; }
+.finfo { font-size: 0.7rem; text-align: center; color: #889; margin-bottom: 20px; height: 40px; }
+
+.btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 200px; }
+
 .info-btn, .vote-btn {
-  padding: 10px 20px; font-family: var(--font); font-size: 0.6rem; letter-spacing: 2px;
-  border: none; border-radius: 2px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
-  width: 160px; text-transform: uppercase; pointer-events: auto; position: relative; overflow: hidden;
+  padding: 12px; font-family: var(--font); font-size: 0.65rem; letter-spacing: 1px;
+  border: none; border-radius: 4px; width: 100%; text-transform: uppercase;
 }
 
-.info-btn:hover, .vote-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 15px var(--gold-glow); filter: brightness(1.2); }
-.vote-btn { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+.vote-btn { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
 .viajero .info-btn { background: var(--viajero-color); color: #fff; }
 .blanco .info-btn { background: #fff; color: #000; }
 .rey .info-btn { background: var(--cel); color: #fff; }
-.vote-btn.active { background: var(--gold) !important; color: #000 !important; box-shadow: 0 0 15px var(--gold-glow); border-color: transparent; }
+.vote-btn.active { background: var(--gold) !important; color: #000 !important; }
 
-/* --- MODAL ACTUALIZADO --- */
+/* MODAL RESPONSIVO */
 .modal-overlay { 
   position: fixed; inset: 0; 
-  background: rgba(0,0,0,0.92); 
+  background: rgba(0,0,0,0.95); 
   display: none; align-items: center; justify-content: center; 
-  z-index: 10000; backdrop-filter: blur(15px); 
-  opacity: 0; transition: opacity 0.5s ease; 
+  z-index: 30000; backdrop-filter: blur(10px); 
 }
-.modal-overlay.active { display: flex; opacity: 1; }
-
 .modal-card { 
-  width: 90%; max-width: 800px; 
-  background: #0a0c14; border-radius: 8px; 
-  display: flex; overflow: hidden; 
-  position: relative; border: 1px solid rgba(255,255,255,0.1); 
-  transform: translateY(100px) scale(0.8); 
-  opacity: 0;
-  transition: transform 0.6s cubic-bezier(0.17, 0.84, 0.44, 1), opacity 0.5s; 
+  width: 90%; max-width: 500px; 
+  background: #0a0c14; border-radius: 12px; 
+  flex-direction: column;
+  position: relative; border: 1px solid rgba(255,255,255,0.2); 
+  max-height: 90vh; overflow-y: auto;
+}
+@media (min-width: 768px) {
+    .modal-card { flex-direction: row; max-width: 800px; }
 }
 
-.modal-overlay.active .modal-card { 
-  transform: translateY(0) scale(1); 
-  opacity: 1;
-}
+.modal-left { padding: 20px; background: rgba(255,255,255,0.03); text-align: center; }
+.modal-right { padding: 30px; }
+.modal-img { max-height: 200px; width: auto; }
+.modal-title { font-size: 1.5rem; margin-bottom: 15px; color: var(--theme-color); }
+.modal-text { line-height: 1.6; font-size: 0.9rem; font-family: sans-serif; }
 
-/* Animación de salida */
-.modal-overlay.closing .modal-card { 
-  transform: translateY(-100px) scale(0.8); 
-  opacity: 0;
-}
-.modal-overlay.closing { opacity: 0; }
+/* CONTROLES */
+.menu-open-btn { position: fixed; top: 15px; left: 15px; z-index: 5000; background: rgba(0,0,0,0.8); border: 1px solid var(--gold); color: var(--gold); padding: 10px; border-radius: 4px; }
+.music-control { position: fixed; bottom: 15px; right: 15px; width: 50px; height: 50px; background: rgba(0,0,0,0.8); border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5000; color: var(--gold); }
 
-.modal-left { flex: 1; background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; padding: 20px; }
-.modal-right { flex: 1.2; padding: 40px; }
-.modal-img { max-width: 100%; filter: drop-shadow(0 0 30px var(--theme-color)); }
-.modal-title { font-size: 2rem; margin-bottom: 20px; color: var(--theme-color); }
-.modal-text { line-height: 1.8; color: #ccc; font-family: sans-serif; }
-.close-modal { position: absolute; top: 20px; right: 20px; font-size: 2.5rem; color: #fff; opacity: 0.5; cursor: none !important; }
-
-/* --- SIDEBAR --- */
-.menu-open-btn { position: fixed; top: 20px; left: 20px; z-index: 1000; background: rgba(0, 0, 0, 0.6); border: 1px solid var(--gold); color: var(--gold); padding: 10px 15px; font-family: var(--font); border-radius: 4px; pointer-events: auto; }
-.sidebar { position: fixed; top: 0; left: -300px; width: 300px; height: 100%; background: rgba(8, 9, 18, 0.95); backdrop-filter: blur(20px); border-right: 1px solid rgba(255, 255, 255, 0.1); z-index: 15000; transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1); padding: 40px 20px; display: flex; flex-direction: column; }
+.sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: #080912; z-index: 25000; transition: 0.4s; padding: 40px 20px; border-right: 1px solid var(--gold); }
 .sidebar.open { left: 0; }
-.sidebar-title { color: var(--gold); font-size: 1.2rem; margin-bottom: 30px; text-align: center; border-bottom: 1px solid rgba(201, 162, 39, 0.3); padding-bottom: 10px; }
-.preview-container { width: 100%; height: 120px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 20px; background-size: cover; background-position: center; border-radius: 4px; }
-.bg-option { padding: 12px; margin-bottom: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #ccc; text-align: center; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; cursor: none !important; transition: 0.3s; }
-.bg-option:hover { border-color: var(--gold); color: #fff; }
-.bg-option.selected { background: var(--gold); color: #000; }
-.close-sidebar { align-self: flex-end; color: #fff; font-size: 1.5rem; cursor: none !important; margin-bottom: 10px; }
-
-/* Overlay oscuro para el Sidebar */
-#sidebar-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 14000;
-  display: none;
-  opacity: 0;
-  transition: 0.5s;
-}
-#sidebar-overlay.active { display: block; opacity: 1; }
-
-.music-control { position: fixed; bottom: 25px; right: 25px; width: 55px; height: 55px; background: rgba(0,0,0,0.8); border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; color: var(--gold); pointer-events: auto; }
 </style>
 </head>
 <body>
@@ -253,36 +241,35 @@ body::before {
   <div class="menu-content">
     <img src="1000015002.png" alt="Logo Rivalidad" class="menu-logo-big">
     <br>
-    <button class="start-btn" onclick="comenzarDuelo()">Comenzar Duelo</button>
+    <button class="start-btn" onclick="comenzarDuelo()">Empezar</button>
   </div>
 </div>
 
 <button class="menu-open-btn" onclick="toggleSidebar()">☰</button>
 
-<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
+<div id="sidebar-overlay" onclick="toggleSidebar()" style="position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:24000; display:none;"></div>
 <div class="sidebar" id="sidebar">
-    <div class="close-sidebar" onclick="toggleSidebar()">&times;</div>
-    <h3 class="sidebar-title">Fondo de página</h3>
-    <div class="preview-container" id="bgPreview" style="background-image: url('1000014974.jpg');"></div>
-    <div class="bg-option selected" onclick="changeBackground('rivales', '1000014974.jpg')" onmouseover="updatePreview('1000014974.jpg')">Rivales</div>
-    <div class="bg-option" onclick="changeBackground('oscuridad', 'o.webp')" onmouseover="updatePreview('o.webp')">Oscuridad</div>
-    <div class="bg-option" onclick="changeBackground('hielo', 'ff.jpg')" onmouseover="updatePreview('ff.jpg')">Hielo</div>
-    <div class="bg-option" onclick="changeBackground('riqueza', 'rc.webp')" onmouseover="updatePreview('rc.webp')">Riqueza</div>
+    <div onclick="toggleSidebar()" style="text-align:right; font-size:2rem; margin-bottom:20px;">&times;</div>
+    <h3 style="color:var(--gold); margin-bottom:20px;">Fondo</h3>
+    <div class="bg-option" onclick="changeBackground('rivales', '1000014974.jpg')" style="padding:15px; border:1px solid #333; margin-bottom:10px; font-size:0.7rem;">RIVALES</div>
+    <div class="bg-option" onclick="changeBackground('oscuridad', 'o.webp')" style="padding:15px; border:1px solid #333; margin-bottom:10px; font-size:0.7rem;">OSCURIDAD</div>
+    <div class="bg-option" onclick="changeBackground('hielo', 'ff.jpg')" style="padding:15px; border:1px solid #333; margin-bottom:10px; font-size:0.7rem;">HIELO</div>
+    <div class="bg-option" onclick="changeBackground('riqueza', 'rc.webp')" style="padding:15px; border:1px solid #333; margin-bottom:10px; font-size:0.7rem;">RIQUEZA</div>
 </div>
 
 <div id="custom-cursor"></div>
 <canvas id="canvas"></canvas>
 
 <audio id="bgMusic" loop><source src="rival.mp3" type="audio/mpeg"></audio>
-<div class="music-control" onclick="toggleMusic(event)"><span id="music-icon">▶</span></div>
+<div class="music-control" onclick="toggleMusic()"><span id="music-icon">▶</span></div>
 
 <div class="modal-overlay" id="modal" onclick="if(event.target == this) closeModal()">
   <div class="modal-card" id="modalCard">
-    <span class="close-modal" onclick="closeModal()">&times;</span>
     <div class="modal-left"><img src="" id="mImg" class="modal-img"></div>
     <div class="modal-right">
       <h2 id="mTitle" class="modal-title"></h2>
       <p id="mText" class="modal-text"></p>
+      <button onclick="closeModal()" style="margin-top:20px; background:var(--gold); border:none; padding:10px 20px; font-family:var(--font); width:100%;">CERRAR</button>
     </div>
   </div>
 </div>
@@ -290,22 +277,20 @@ body::before {
 <div class="page">
   <div class="main-card">
     <div class="card-header">
-      <div class="top-logo-container">
-        <img src="1000015002.png" alt="Icono Superior" class="top-logo-img">
-      </div>
+      <img src="1000015002.png" alt="Icono Superior" class="top-logo-img">
       <h1 class="main-title">Rivalidad en Battlewood</h1>
-      <h2 class="main-subtitle">Un gran duelo que conducirá hacia la victoria al que obtenga los fragmentos.</h2>
+      <p class="main-subtitle">El duelo por los fragmentos del Punto Cero.</p>
     </div>
 
-    <p class="voto-subtitle">Vota a quién crees que se quedará con los fragmentos.</p>
+    <p class="voto-subtitle">¿Quién ganará?</p>
 
     <div class="fighters">
       <div class="fighter viajero">
         <div class="fname" style="color:var(--viajero-glow)">Viajero Oscuro</div>
-        <div class="img-container"><img src="1000014977.png" class="viajero-img"></div>
+        <div class="img-container"><img src="1000014977.png"></div>
         <div class="finfo">Visitante malicioso de otro mundo.</div>
         <div class="btn-group">
-            <button class="info-btn" onclick="openModal('viajero')">✦ INFO</button>
+            <button class="info-btn" onclick="openModal('viajero')">INFO</button>
             <button class="vote-btn" onclick="castVote(this)">VOTAR</button>
         </div>
       </div>
@@ -314,10 +299,10 @@ body::before {
 
       <div class="fighter blanco">
         <div class="fname" style="color:var(--white-glow)">Victor Chávez</div>
-        <div class="img-container"><img src="1000014981.png" class="blanco-img"></div>
-        <div class="finfo">Magnate con reputación dudosa.</div>
+        <div class="img-container"><img src="1000014981.png"></div>
+        <div class="finfo">Magnate de negocios turbios.</div>
         <div class="btn-group">
-            <button class="info-btn" onclick="openModal('victor')">✦ INFO</button>
+            <button class="info-btn" onclick="openModal('victor')">INFO</button>
             <button class="vote-btn" onclick="castVote(this)">VOTAR</button>
         </div>
       </div>
@@ -326,10 +311,10 @@ body::before {
 
       <div class="fighter rey">
         <div class="fname" style="color:var(--cel-glow)">Rey Helado</div>
-        <div class="img-container"><img src="1000014978.png" class="rey-img"></div>
+        <div class="img-container"><img src="1000014978.png"></div>
         <div class="finfo">Soberano del Reino Helado.</div>
         <div class="btn-group">
-            <button class="info-btn" onclick="openModal('rey')">✦ INFO</button>
+            <button class="info-btn" onclick="openModal('rey')">INFO</button>
             <button class="vote-btn" onclick="castVote(this)">VOTAR</button>
         </div>
       </div>
@@ -338,139 +323,84 @@ body::before {
 </div>
 
 <script>
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function playBass() {
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = 'sine'; osc.frequency.setValueAtTime(60, audioCtx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.4);
-  gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.start(); osc.stop(audioCtx.currentTime + 0.4);
-}
-
 const cursor = document.getElementById('custom-cursor');
 document.addEventListener('mousemove', (e) => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
+  if(cursor) {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  }
 });
-document.addEventListener('mousedown', () => { cursor.classList.add('clicking'); playBass(); });
-document.addEventListener('mouseup', () => cursor.classList.remove('clicking'));
 
 function comenzarDuelo() {
-  const menu = document.getElementById('startup-menu');
-  menu.classList.add('menu-hidden');
-  playBass();
-  if (music.paused) {
-    music.play().then(() => { musicIcon.innerText = '⏸'; }).catch(e => console.log("Audio Bloqueado"));
-  }
+  document.getElementById('startup-menu').classList.add('menu-hidden');
+  const music = document.getElementById('bgMusic');
+  music.play().catch(() => console.log("Audio bloqueado"));
+  document.getElementById('music-icon').innerText = '⏸';
 }
 
-function castVote(clickedBtn) {
-  const allVoteBtns = document.querySelectorAll('.vote-btn');
-  allVoteBtns.forEach(btn => {
-    btn.classList.remove('active');
-    btn.innerText = 'VOTAR';
+function castVote(btn) {
+  document.querySelectorAll('.vote-btn').forEach(b => {
+    b.classList.remove('active');
+    b.innerText = 'VOTAR';
   });
-  clickedBtn.classList.add('active');
-  clickedBtn.innerText = 'Se los quedará él';
-  const characterName = clickedBtn.closest('.fighter').classList[1]; 
-  localStorage.setItem('votoPuntoCero', characterName);
+  btn.classList.add('active');
+  btn.innerText = 'ELEGIDO';
 }
 
 const data = {
-  viajero: { title: "Viajero Oscuro", img: "1000014977.png", color: "#ff6600", text: "Variante del Viajero del Universo Cero. Esta vez, va por solitario con su nave, llegando así al país de Battlewood. Ya que quiere hacerse con los fragmentos divididos del Punto Cero para poder potenciar su nave, y poder huir hacia otros planetas... según él..." },
-  victor: { title: "Victor Chávez", img: "1000014981.png", color: "#ffffff", text: "Un hombre que le sobra el dinero debido a sus amañados salas de juegos de apuesta, y a su oculto negocio de contrabando... el Punto Cero le ha hecho efecto a su cuerpo, y lo necesita para buscar una solución para arreglarse. Con metodos dudosos, obviamente." },
-  rey: { title: "Rey Helado", img: "1000014978.png", color: "#5bb8e8", text: "Variante del Rey Helado del Universo Cero. Esta vez, es el malvado rey del Reino Helado, y no podía no aprovecharse de la oportunidad de conseguir los fragmentos divididos de algo muy poderoso... Por eso, llegó al país acompañado de un glaciar con su castillo." }
+  viajero: { title: "Viajero Oscuro", img: "1000014977.png", color: "#ff6600", text: "Variante del Viajero del Universo Cero. Busca potenciar su nave con fragmentos del Punto Cero." },
+  victor: { title: "Victor Chávez", img: "1000014981.png", color: "#ffffff", text: "Magnate que busca el Punto Cero para sanar su cuerpo afectado por la energía pura." },
+  rey: { title: "Rey Helado", img: "1000014978.png", color: "#5bb8e8", text: "Malvado soberano que quiere el poder de los fragmentos para expandir su reino de hielo." }
 };
 
-/* MODAL LOGIC */
-const modal = document.getElementById('modal');
 function openModal(id) {
   const p = data[id];
   document.getElementById('mTitle').innerText = p.title;
   document.getElementById('mText').innerText = p.text;
   document.getElementById('mImg').src = p.img;
   document.getElementById('modalCard').style.setProperty('--theme-color', p.color);
-  modal.style.display = 'flex';
-  setTimeout(() => modal.classList.add('active'), 10);
+  document.getElementById('modal').style.display = 'flex';
 }
 
 function closeModal() {
-  modal.classList.add('closing');
-  setTimeout(() => {
-    modal.style.display = 'none';
-    modal.classList.remove('active', 'closing');
-  }, 600); // Duración de la animación de salida
+  document.getElementById('modal').style.display = 'none';
 }
 
-(function(){
-  const c=document.getElementById('canvas'),ctx=c.getContext('2d');
-  let W,H,ashes=[];
-  function resize(){ W=c.width=innerWidth; H=c.height=innerHeight; }
-  function init(){
-    ashes=[];
-    for(let i=0;i<80;i++) ashes.push({ x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-0.5)*1, vy:Math.random()*1+0.5, size:Math.random()*2, a:Math.random() });
-  }
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    ashes.forEach(p=>{
-      p.y -= p.vy; p.x += p.vx; if(p.y < -10) p.y = H+10;
-      ctx.fillStyle = `rgba(255,255,255,0.3)`;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
-    });
-    requestAnimationFrame(draw);
-  }
-  window.onresize=()=>{resize();init();}; resize(); init(); draw();
-})();
-
-const music = document.getElementById('bgMusic');
-const musicIcon = document.getElementById('music-icon');
-function toggleMusic(e) {
-  e.stopPropagation();
-  if (music.paused) { music.play(); musicIcon.innerText = '⏸'; }
-  else { music.pause(); musicIcon.innerText = '▶'; }
+function toggleMusic() {
+  const music = document.getElementById('bgMusic');
+  const icon = document.getElementById('music-icon');
+  if (music.paused) { music.play(); icon.innerText = '⏸'; }
+  else { music.pause(); icon.innerText = '▶'; }
 }
 
-/* SIDEBAR LOGIC */
-const sidebar = document.getElementById('sidebar');
-const sidebarOverlay = document.getElementById('sidebar-overlay');
-
-function toggleSidebar() { 
-  const isOpen = sidebar.classList.toggle('open');
-  if(isOpen) {
-    sidebarOverlay.classList.add('active');
-  } else {
-    sidebarOverlay.classList.remove('active');
-  }
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebar-overlay');
+  if(sb.classList.toggle('open')) ov.style.display = 'block';
+  else ov.style.display = 'none';
 }
-
-function updatePreview(url) { document.getElementById('bgPreview').style.backgroundImage = `url('${url}')`; }
 
 function changeBackground(name, url) {
-    document.body.style.backgroundImage = `url('${url}')`;
-    localStorage.setItem('userBackground', url);
-    localStorage.setItem('userBackgroundName', name);
-    document.querySelectorAll('.bg-option').forEach(opt => {
-        opt.classList.remove('selected');
-        if(opt.innerText.toLowerCase() === name) opt.classList.add('selected');
-    });
+  document.body.style.backgroundImage = `url('${url}')`;
+  toggleSidebar();
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  const votoGuardado = localStorage.getItem('votoPuntoCero');
-  if (votoGuardado) {
-    const fighterDiv = document.querySelector(`.${votoGuardado}`);
-    if (fighterDiv) {
-      const btn = fighterDiv.querySelector('.vote-btn');
-      btn.classList.add('active'); btn.innerText = 'Se los quedará él';
-    }
+// Canvas simple
+(function(){
+  const c=document.getElementById('canvas'), ctx=c.getContext('2d');
+  let W,H;
+  function res(){ W=c.width=innerWidth; H=c.height=innerHeight; }
+  window.onresize=res; res();
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(255,255,255,0.1)";
+    ctx.beginPath();
+    ctx.arc(Math.random()*W, Math.random()*H, 1, 0, Math.PI*2);
+    ctx.fill();
+    requestAnimationFrame(draw);
   }
-  const savedBg = localStorage.getItem('userBackground');
-  if (savedBg) { changeBackground(localStorage.getItem('userBackgroundName'), savedBg); updatePreview(savedBg); }
-});
+  draw();
+})();
 </script>
 </body>
 </html>
