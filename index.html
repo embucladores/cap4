@@ -27,13 +27,13 @@
 }
 
 html, body { 
-  min-height: 100vh; /* Cambiado para permitir scroll */
+  min-height: 100vh;
   font-family: var(--font); 
   background: #06070e url('1000014974.jpg') no-repeat center center fixed; 
   background-size: cover;
   color: #ccc; 
   overflow-x: hidden;
-  overflow-y: auto; /* Permite bajar en móvil */
+  overflow-y: auto;
   -webkit-user-select: none; 
   user-select: none;
 }
@@ -71,7 +71,7 @@ body::before {
 .menu-content { text-align: center; animation: fadeIn 1.5s ease-out; padding: 20px; }
 
 .menu-logo-big {
-  height: clamp(120px, 20vw, 180px); /* Escalable en móvil */
+  height: clamp(100px, 18vw, 180px);
   width: auto;
   margin-bottom: 40px;
   filter: drop-shadow(0 0 25px var(--gold-glow));
@@ -81,7 +81,7 @@ body::before {
 .start-btn {
   padding: 18px 40px;
   font-family: var(--font);
-  font-size: clamp(1rem, 4vw, 1.3rem);
+  font-size: clamp(0.9rem, 3.5vw, 1.3rem);
   color: #000;
   background: var(--gold);
   border: none;
@@ -110,7 +110,7 @@ body::before {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* CURSOR (Oculto en móvil) */
+/* CURSOR */
 #custom-cursor {
   position: fixed;
   width: 25px; height: 25px;
@@ -121,10 +121,10 @@ body::before {
   transform: translate(-50%, -50%);
   box-shadow: 0 0 10px var(--gold-glow);
   transition: width 0.1s, height 0.1s;
-  display: none; /* Por defecto oculto */
+  display: none;
 }
 @media (pointer: fine) {
-  #custom-cursor { display: block; } /* Solo se muestra en PC */
+  #custom-cursor { display: block; }
 }
 
 #custom-cursor::after {
@@ -144,7 +144,7 @@ body::before {
   flex-direction:column; 
   align-items:center; 
   justify-content:center; 
-  padding: 80px 16px 40px; /* Padding extra superior para que no pise el botón hamburguesa */
+  padding: 80px 16px 40px;
 }
 
 .main-card{
@@ -162,24 +162,56 @@ body::before {
 .card-header { text-align: center; padding: 20px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
 .top-logo-container { display: flex; justify-content: center; width: 100%; margin-bottom: 10px; }
-.top-logo-img { height: 50px; width: auto; filter: drop-shadow(0 0 12px rgba(201, 162, 39, 0.6)); pointer-events: none; }
+.top-logo-img { height: 45px; width: auto; filter: drop-shadow(0 0 12px rgba(201, 162, 39, 0.6)); pointer-events: none; }
 
-.main-title{ font-size:clamp(1.5rem,5vw,2.8rem); font-weight:bold; background:linear-gradient(135deg,#fff,var(--gold-glow),#fff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:2px; margin-bottom: 5px; }
-.main-subtitle{ font-size: 0.8rem; color: var(--gold); letter-spacing: 2px; opacity: 0.8; max-width: 800px; margin: 0 auto; line-height: 1.4; }
+/* AJUSTE DINÁMICO DEL TÍTULO */
+.main-title{ 
+  font-size: clamp(1.1rem, 5vw, 2.8rem); 
+  font-weight: bold; 
+  background: linear-gradient(135deg,#fff,var(--gold-glow),#fff); 
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent; 
+  letter-spacing: 1px; 
+  margin-bottom: 5px;
+  line-height: 1.2;
+}
 
-.voto-subtitle { font-size: 0.85rem; color: #a0d8f5; margin: 20px 0; letter-spacing: 2px; text-transform: uppercase; text-align: center; text-shadow: 0 0 8px rgba(91, 184, 232, 0.4); padding: 0 10px;}
+.main-subtitle{ 
+  font-size: clamp(0.65rem, 2.5vw, 0.8rem); 
+  color: var(--gold); 
+  letter-spacing: 1px; 
+  opacity: 0.8; 
+  max-width: 800px; 
+  margin: 0 auto; 
+  line-height: 1.4; 
+}
 
-/* GRID RESPONSIVO */
+/* MEDIA QUERY ESPECÍFICA PARA MÓVILES PEQUEÑOS - AQUÍ ESTÁ EL CAMBIO */
+@media (max-width: 480px) {
+  .menu-logo-big { 
+    height: auto; 
+    width: 250px; /* Tamaño controlado para que no desborde */
+    max-width: 80vw;
+    margin-bottom: 25px; 
+  }
+  .main-title { font-size: 1.15rem; letter-spacing: 0.5px; padding: 0 10px; }
+  .main-subtitle { font-size: 0.6rem; padding: 0 15px; }
+  .top-logo-img { height: 35px; }
+  .page { padding-top: 60px; }
+}
+
+.voto-subtitle { font-size: 0.8rem; color: #a0d8f5; margin: 15px 0; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; text-shadow: 0 0 8px rgba(91, 184, 232, 0.4); padding: 0 10px;}
+
 .fighters{ 
   display: flex; 
-  flex-direction: column; /* Móvil: una columna vertical */
+  flex-direction: column; 
   gap: 15px;
   padding: 10px;
 }
 @media (min-width: 900px) {
   .fighters { 
     display: grid; 
-    grid-template-columns: 1fr auto 1fr auto 1fr; /* PC: 5 columnas horizontales */
+    grid-template-columns: 1fr auto 1fr auto 1fr; 
     align-items: stretch; 
     gap: 0;
     padding: 0;
@@ -192,7 +224,7 @@ body::before {
 .vs-divider { display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--gold); opacity: 0.4; font-weight: bold; padding: 10px 0; }
 @media (min-width: 900px) { .vs-divider { padding: 0; font-size: 1.2rem; } }
 
-.img-container { height: 220px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+.img-container { height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
 .viajero-img, .blanco-img, .rey-img { max-height: 100%; width: auto; animation: float 4s infinite ease-in-out; }
 @keyframes float { 0%,100% {transform:translateY(0)} 50% {transform:translateY(-15px)} }
 
@@ -213,7 +245,7 @@ body::before {
 .rey .info-btn { background: var(--cel); color: #fff; }
 .vote-btn.active { background: var(--gold) !important; color: #000 !important; box-shadow: 0 0 15px var(--gold-glow); border-color: transparent; }
 
-/* --- MODAL RESPONSIVO --- */
+/* MODAL */
 .modal-overlay { 
   position: fixed; inset: 0; 
   background: rgba(0,0,0,0.92); 
@@ -227,7 +259,7 @@ body::before {
   width: 90%; max-width: 800px; 
   background: #0a0c14; border-radius: 8px; 
   display: flex; 
-  flex-direction: column; /* Apilado en móvil */
+  flex-direction: column; 
   max-height: 85vh; overflow-y: auto;
   position: relative; border: 1px solid rgba(255,255,255,0.1); 
   transform: translateY(100px) scale(0.8); 
@@ -238,14 +270,8 @@ body::before {
   .modal-card { flex-direction: row; overflow: hidden; }
 }
 
-.modal-overlay.active .modal-card { 
-  transform: translateY(0) scale(1); 
-  opacity: 1;
-}
-.modal-overlay.closing .modal-card { 
-  transform: translateY(-100px) scale(0.8); 
-  opacity: 0;
-}
+.modal-overlay.active .modal-card { transform: translateY(0) scale(1); opacity: 1; }
+.modal-overlay.closing .modal-card { transform: translateY(-100px) scale(0.8); opacity: 0; }
 .modal-overlay.closing { opacity: 0; }
 
 .modal-left { flex: 1; background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; padding: 30px; }
@@ -257,7 +283,7 @@ body::before {
 .modal-text { line-height: 1.8; color: #ccc; font-family: sans-serif; font-size: 0.9rem;}
 .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2.5rem; color: #fff; opacity: 0.7; z-index: 10;}
 
-/* --- SIDEBAR --- */
+/* SIDEBAR */
 .menu-open-btn { position: fixed; top: 15px; left: 15px; z-index: 5000; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--gold); color: var(--gold); padding: 10px 15px; font-family: var(--font); border-radius: 4px; pointer-events: auto; }
 .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: rgba(8, 9, 18, 0.98); backdrop-filter: blur(20px); border-right: 1px solid rgba(255, 255, 255, 0.1); z-index: 15000; transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1); padding: 40px 20px; display: flex; flex-direction: column; }
 .sidebar.open { left: 0; }
@@ -268,14 +294,7 @@ body::before {
 .bg-option.selected { background: var(--gold); color: #000; }
 .close-sidebar { align-self: flex-end; color: #fff; font-size: 2rem; margin-bottom: 10px; line-height: 1;}
 
-#sidebar-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 14000;
-  display: none;
-  opacity: 0;
-  transition: 0.5s;
-}
+#sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 14000; display: none; opacity: 0; transition: 0.5s; }
 #sidebar-overlay.active { display: block; opacity: 1; }
 
 .music-control { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: rgba(0,0,0,0.8); border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5000; color: var(--gold); pointer-events: auto; font-size: 1.2rem;}
@@ -372,6 +391,7 @@ body::before {
 </div>
 
 <script>
+// --- TU SCRIPT ORIGINAL INTACTO ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playBass() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -429,7 +449,6 @@ const data = {
   rey: { title: "Rey Helado", img: "1000014978.png", color: "#5bb8e8", text: "Variante del Rey Helado del Universo Cero. Esta vez, es el malvado rey del Reino Helado, y no podía no aprovecharse de la oportunidad de conseguir los fragmentos divididos de algo muy poderoso... Por eso, llegó al país acompañado de un glaciar con su castillo." }
 };
 
-/* MODAL LOGIC */
 const modal = document.getElementById('modal');
 function openModal(id) {
   const p = data[id];
@@ -477,7 +496,6 @@ function toggleMusic(e) {
   else { music.pause(); musicIcon.innerText = '▶'; }
 }
 
-/* SIDEBAR LOGIC */
 const sidebar = document.getElementById('sidebar');
 const sidebarOverlay = document.getElementById('sidebar-overlay');
 
@@ -500,7 +518,6 @@ function changeBackground(name, url) {
         opt.classList.remove('selected');
         if(opt.innerText.toLowerCase() === name) opt.classList.add('selected');
     });
-    // Cerramos el sidebar al elegir fondo en móvil para mayor comodidad
     if(window.innerWidth < 768) {
         toggleSidebar();
     }
@@ -512,9 +529,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const fighterDiv = document.querySelector(`.${votoGuardado}`);
     if (fighterDiv) {
       const btn = fighterDiv.querySelector('.vote-btn');
-      if(btn) {
-        btn.classList.add('active'); btn.innerText = 'Se los quedará él';
-      }
+      if(btn) { btn.classList.add('active'); btn.innerText = 'Se los quedará él'; }
     }
   }
   const savedBg = localStorage.getItem('userBackground');
