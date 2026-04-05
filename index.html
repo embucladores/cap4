@@ -186,11 +186,11 @@ body::before {
   line-height: 1.4; 
 }
 
-/* MEDIA QUERY ESPECÍFICA PARA MÓVILES PEQUEÑOS - AQUÍ ESTÁ EL CAMBIO */
+/* MEDIA QUERY ESPECÍFICA PARA MÓVILES PEQUEÑOS */
 @media (max-width: 480px) {
   .menu-logo-big { 
     height: auto; 
-    width: 250px; /* Tamaño controlado para que no desborde */
+    width: 250px; 
     max-width: 80vw;
     margin-bottom: 25px; 
   }
@@ -245,7 +245,7 @@ body::before {
 .rey .info-btn { background: var(--cel); color: #fff; }
 .vote-btn.active { background: var(--gold) !important; color: #000 !important; box-shadow: 0 0 15px var(--gold-glow); border-color: transparent; }
 
-/* MODAL */
+/* MODAL INFO */
 .modal-overlay { 
   position: fixed; inset: 0; 
   background: rgba(0,0,0,0.92); 
@@ -297,6 +297,51 @@ body::before {
 #sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 14000; display: none; opacity: 0; transition: 0.5s; }
 #sidebar-overlay.active { display: block; opacity: 1; }
 
+/* ESTILOS OPCIONES FONDO PERSONALIZADO */
+.custom-bg-wrapper { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin-bottom: 8px; }
+.custom-bg-wrapper .bg-option { flex-grow: 1; margin-bottom: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 12px 5px;}
+.edit-bg-btn { background: rgba(201, 162, 39, 0.1); border: 1px solid rgba(201, 162, 39, 0.3); color: var(--gold); border-radius: 4px; padding: 10px; transition: 0.3s; display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; pointer-events: auto;}
+.edit-bg-btn:hover { background: rgba(201, 162, 39, 0.4); border-color: var(--gold); color: #fff; transform: scale(1.05); }
+.delete-bg-btn { background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 0, 0, 0.3); color: #ff4c4c; border-radius: 4px; padding: 10px; transition: 0.3s; display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; pointer-events: auto;}
+.delete-bg-btn:hover { background: rgba(255, 0, 0, 0.4); border-color: #ff4c4c; color: #fff; transform: scale(1.05); }
+
+/* ESTILOS MODAL PERSONALIZADO (RENOMBRAR/ELIMINAR) */
+#custom-dialog-overlay {
+  position: fixed; inset: 0; 
+  background: rgba(0,0,0,0.85); 
+  display: none; align-items: center; justify-content: center; 
+  z-index: 25000; backdrop-filter: blur(10px); 
+  opacity: 0; transition: opacity 0.4s ease; 
+}
+#custom-dialog-overlay.active { opacity: 1; }
+.dialog-card {
+  width: 90%; max-width: 380px; 
+  background: #0a0c14; border-radius: 8px; 
+  border: 1px solid var(--gold); 
+  box-shadow: 0 0 25px rgba(201, 162, 39, 0.2);
+  padding: 30px 20px; text-align: center;
+  transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.17, 0.84, 0.44, 1);
+}
+#custom-dialog-overlay.active .dialog-card { transform: scale(1); }
+.dialog-title { color: var(--gold); font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; }
+.dialog-text { font-size: 0.85rem; color: #ccc; margin-bottom: 20px; line-height: 1.5; font-family: sans-serif;}
+.dialog-input {
+  width: 100%; padding: 12px; margin-bottom: 25px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; font-family: var(--font); outline: none; border-radius: 4px;
+  text-align: center; font-size: 1rem;
+}
+.dialog-input:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(201, 162, 39, 0.4); }
+.dialog-btn-container { display: flex; gap: 15px; justify-content: center; }
+.dialog-btn { 
+  padding: 10px 20px; font-family: var(--font); font-size: 0.7rem; letter-spacing: 2px;
+  border: none; border-radius: 2px; transition: all 0.3s; text-transform: uppercase; cursor: pointer;
+}
+.dialog-btn.cancel { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+.dialog-btn.cancel:hover { background: rgba(255,255,255,0.1); }
+.dialog-btn.confirm { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-glow); }
+.dialog-btn.confirm:hover { background: #fff; box-shadow: 0 0 20px #fff; }
+
 .music-control { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: rgba(0,0,0,0.8); border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5000; color: var(--gold); pointer-events: auto; font-size: 1.2rem;}
 </style>
 </head>
@@ -321,6 +366,10 @@ body::before {
     <div class="bg-option" onclick="changeBackground('oscuridad', 'o.webp')" onmouseover="updatePreview('o.webp')">Oscuridad</div>
     <div class="bg-option" onclick="changeBackground('hielo', 'ff.jpg')" onmouseover="updatePreview('ff.jpg')">Hielo</div>
     <div class="bg-option" onclick="changeBackground('riqueza', 'rc.webp')" onmouseover="updatePreview('rc.webp')">Riqueza</div>
+    
+    <div id="custom-bg-container"></div>
+    <input type="file" id="bg-upload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+    <label for="bg-upload" class="bg-option" style="margin-top: 15px; border-style: dashed; display: block; pointer-events: auto;">+ SUBIR IMAGEN</label>
 </div>
 
 <div id="custom-cursor"></div>
@@ -336,6 +385,18 @@ body::before {
     <div class="modal-right">
       <h2 id="mTitle" class="modal-title"></h2>
       <p id="mText" class="modal-text"></p>
+    </div>
+  </div>
+</div>
+
+<div id="custom-dialog-overlay" onclick="if(event.target == this) closeCustomDialog(false)">
+  <div class="dialog-card">
+    <h3 id="dialog-title" class="dialog-title"></h3>
+    <p id="dialog-text" class="dialog-text"></p>
+    <input type="text" id="dialog-input" class="dialog-input" autocomplete="off" />
+    <div class="dialog-btn-container">
+      <button id="dialog-btn-cancel" class="dialog-btn cancel" onclick="closeCustomDialog(false)">Cancelar</button>
+      <button id="dialog-btn-confirm" class="dialog-btn confirm" onclick="closeCustomDialog(true)">Aceptar</button>
     </div>
   </div>
 </div>
@@ -380,7 +441,7 @@ body::before {
       <div class="fighter rey">
         <div class="fname" style="color:var(--cel-glow)">Rey Helado</div>
         <div class="img-container"><img src="1000014978.png" class="rey-img"></div>
-        <div class="finfo">Soberano del Reino de Hielo.</div>
+        <div class="finfo">Soberano del Reino Helado.</div>
         <div class="btn-group">
             <button class="info-btn" onclick="openModal('rey')">✦ INFO</button>
             <button class="vote-btn" onclick="castVote(this)">VOTAR</button>
@@ -444,7 +505,7 @@ function castVote(clickedBtn) {
 
 const data = {
   viajero: { title: "Viajero Oscuro", img: "1000014977.png", color: "#ff6600", text: "Variante del Viajero del Universo Cero. Esta vez, va por solitario con su nave, llegando así al país de Battlewood. Ya que quiere hacerse con los fragmentos divididos del Punto Cero para poder potenciar su nave, y poder huir hacia otros planetas... según él..." },
-  victor: { title: "Victor Chávez", img: "1000014981.png", color: "#ffffff", text: "Un hombre que le sobra el dinero debido a sus amañadas salas de juegos de apuesta, y a su oculto negocio de contrabando... el Punto Cero le ha hecho efecto a su cuerpo, y lo necesita para buscar una solución para arreglarse. Con metodos dudosos, obviamente." },
+  victor: { title: "Victor Chávez", img: "1000014981.png", color: "#ffffff", text: "Un hombre que le sobra el dinero debido a sus amañados salas de juegos de apuesta, y a su oculto negocio de contrabando... el Punto Cero le ha hecho efecto a su cuerpo, y lo necesita para buscar una solución para arreglarse. Con metodos dudosos, obviamente." },
   rey: { title: "Rey Helado", img: "1000014978.png", color: "#5bb8e8", text: "Variante del Rey Helado del Universo Cero. Esta vez, es el malvado rey del Reino Helado, y no podía no aprovecharse de la oportunidad de conseguir los fragmentos divididos de algo muy poderoso... Por eso, llegó al país acompañado de un glaciar con su castillo." }
 };
 
@@ -515,11 +576,157 @@ function changeBackground(name, url) {
     localStorage.setItem('userBackgroundName', name);
     document.querySelectorAll('.bg-option').forEach(opt => {
         opt.classList.remove('selected');
-        if(opt.innerText.toLowerCase() === name) opt.classList.add('selected');
+        if(opt.innerText.toLowerCase() === name.toLowerCase()) opt.classList.add('selected');
     });
     if(window.innerWidth < 768) {
         toggleSidebar();
     }
+}
+
+/* --- SISTEMA DE DIÁLOGOS PERSONALIZADOS --- */
+let currentDialogCallback = null;
+
+function openCustomDialog(type, title, text, defaultInputValue, onConfirmCallback) {
+    const overlay = document.getElementById('custom-dialog-overlay');
+    const inputEl = document.getElementById('dialog-input');
+    const textEl = document.getElementById('dialog-text');
+    const cancelBtn = document.getElementById('dialog-btn-cancel');
+    
+    document.getElementById('dialog-title').innerText = title;
+    
+    if (text) {
+        textEl.innerText = text;
+        textEl.style.display = 'block';
+    } else {
+        textEl.style.display = 'none';
+    }
+
+    if (type === 'input') {
+        inputEl.style.display = 'block';
+        inputEl.value = defaultInputValue || '';
+    } else {
+        inputEl.style.display = 'none';
+    }
+
+    if (type === 'alert') {
+        cancelBtn.style.display = 'none';
+    } else {
+        cancelBtn.style.display = 'block';
+    }
+
+    currentDialogCallback = onConfirmCallback;
+    
+    overlay.style.display = 'flex';
+    setTimeout(() => {
+        overlay.classList.add('active');
+        if(type === 'input') inputEl.focus();
+    }, 10);
+}
+
+function closeCustomDialog(isConfirm) {
+    const overlay = document.getElementById('custom-dialog-overlay');
+    const inputEl = document.getElementById('dialog-input');
+    
+    if (isConfirm && currentDialogCallback) {
+        const returnValue = inputEl.style.display === 'block' ? inputEl.value : true;
+        currentDialogCallback(returnValue);
+    }
+    
+    overlay.classList.remove('active');
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        currentDialogCallback = null;
+    }, 400);
+}
+
+// Enter para aceptar en el input
+document.getElementById('dialog-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') { closeCustomDialog(true); }
+});
+
+/* LÓGICA DE SUBIDA, GUARDADO Y BORRADO DE FONDO PERSONALIZADO */
+function renderCustomBackground() {
+    const container = document.getElementById('custom-bg-container');
+    const savedData = localStorage.getItem('customUserBg');
+    const savedName = localStorage.getItem('customUserBgName');
+    
+    if (savedData && savedName) {
+        container.innerHTML = `
+            <div class="custom-bg-wrapper">
+                <div class="bg-option" onclick="changeBackground('${savedName}', '${savedData}')" onmouseover="updatePreview('${savedData}')">${savedName}</div>
+                <div class="edit-bg-btn" onclick="renameCustomBackground(event)" title="Renombrar fondo subido">✏️</div>
+                <div class="delete-bg-btn" onclick="deleteCustomBackground(event)" title="Eliminar fondo subido">🗑️</div>
+            </div>
+        `;
+        const currentBgName = localStorage.getItem('userBackgroundName');
+        if (currentBgName === savedName) {
+            const opt = container.querySelector('.bg-option');
+            if(opt) opt.classList.add('selected');
+        }
+    } else {
+        container.innerHTML = '';
+    }
+}
+
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        
+        openCustomDialog('input', 'Subir Imagen', 'Introduce un nombre para tu imagen de fondo:', 'Mi Fondo', (bgName) => {
+            if (!bgName || bgName.trim() === "") bgName = "Mi Fondo";
+            
+            try {
+                localStorage.setItem('customUserBg', dataUrl);
+                localStorage.setItem('customUserBgName', bgName);
+                renderCustomBackground();
+                changeBackground(bgName, dataUrl);
+                updatePreview(dataUrl);
+            } catch (err) {
+                openCustomDialog('alert', 'Memoria Insuficiente', 'La imagen es demasiado pesada para guardarse en la memoria del navegador. Por favor, intenta con una imagen más ligera.', null, null);
+            }
+        });
+    };
+    reader.readAsDataURL(file);
+    event.target.value = ''; // Resetea el input para poder subir la misma foto si se borra
+}
+
+function renameCustomBackground(e) {
+    e.stopPropagation();
+    const currentName = localStorage.getItem('customUserBgName') || 'Mi Fondo';
+    
+    openCustomDialog('input', 'Renombrar Imagen', 'Escribe el nuevo nombre para tu fondo:', currentName, (newName) => {
+        if (!newName || newName.trim() === "") return;
+        
+        const dataUrl = localStorage.getItem('customUserBg');
+        const isActive = localStorage.getItem('userBackgroundName') === currentName;
+        
+        localStorage.setItem('customUserBgName', newName);
+        renderCustomBackground();
+        
+        if (isActive) {
+            changeBackground(newName, dataUrl);
+        }
+    });
+}
+
+function deleteCustomBackground(e) {
+    e.stopPropagation();
+    openCustomDialog('confirm', 'Eliminar Imagen', '¿Seguro que quieres borrar la imagen que has subido?', null, () => {
+        const isCurrentlyActive = localStorage.getItem('userBackgroundName') === localStorage.getItem('customUserBgName');
+        localStorage.removeItem('customUserBg');
+        localStorage.removeItem('customUserBgName');
+        renderCustomBackground();
+        
+        // Si el fondo borrado era el que estaba puesto en ese momento, devolvemos al predeterminado
+        if(isCurrentlyActive) {
+            changeBackground('rivales', '1000014974.jpg');
+            updatePreview('1000014974.jpg');
+        }
+    });
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -531,6 +738,9 @@ window.addEventListener('DOMContentLoaded', () => {
       if(btn) { btn.classList.add('active'); btn.innerText = 'Se los quedará él'; }
     }
   }
+  
+  renderCustomBackground(); // Carga la imagen de usuario guardada si existe
+  
   const savedBg = localStorage.getItem('userBackground');
   if (savedBg) { changeBackground(localStorage.getItem('userBackgroundName'), savedBg); updatePreview(savedBg); }
 });
