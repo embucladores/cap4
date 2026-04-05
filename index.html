@@ -380,7 +380,7 @@ body::before {
       <div class="fighter rey">
         <div class="fname" style="color:var(--cel-glow)">Rey Helado</div>
         <div class="img-container"><img src="1000014978.png" class="rey-img"></div>
-        <div class="finfo">Soberano del Reino Helado.</div>
+        <div class="finfo">Soberano del Reino de Hielo.</div>
         <div class="btn-group">
             <button class="info-btn" onclick="openModal('rey')">✦ INFO</button>
             <button class="vote-btn" onclick="castVote(this)">VOTAR</button>
@@ -391,7 +391,6 @@ body::before {
 </div>
 
 <script>
-// --- TU SCRIPT ORIGINAL INTACTO ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playBass() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -445,7 +444,7 @@ function castVote(clickedBtn) {
 
 const data = {
   viajero: { title: "Viajero Oscuro", img: "1000014977.png", color: "#ff6600", text: "Variante del Viajero del Universo Cero. Esta vez, va por solitario con su nave, llegando así al país de Battlewood. Ya que quiere hacerse con los fragmentos divididos del Punto Cero para poder potenciar su nave, y poder huir hacia otros planetas... según él..." },
-  victor: { title: "Victor Chávez", img: "1000014981.png", color: "#ffffff", text: "Un hombre que le sobra el dinero debido a sus amañados salas de juegos de apuesta, y a su oculto negocio de contrabando... el Punto Cero le ha hecho efecto a su cuerpo, y lo necesita para buscar una solución para arreglarse. Con metodos dudosos, obviamente." },
+  victor: { title: "Victor Chávez", img: "1000014981.png", color: "#ffffff", text: "Un hombre que le sobra el dinero debido a sus amañadas salas de juegos de apuesta, y a su oculto negocio de contrabando... el Punto Cero le ha hecho efecto a su cuerpo, y lo necesita para buscar una solución para arreglarse. Con metodos dudosos, obviamente." },
   rey: { title: "Rey Helado", img: "1000014978.png", color: "#5bb8e8", text: "Variante del Rey Helado del Universo Cero. Esta vez, es el malvado rey del Reino Helado, y no podía no aprovecharse de la oportunidad de conseguir los fragmentos divididos de algo muy poderoso... Por eso, llegó al país acompañado de un glaciar con su castillo." }
 };
 
