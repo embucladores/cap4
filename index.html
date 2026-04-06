@@ -11,7 +11,6 @@
 /* Variables y Reset */
 * { margin:0; padding:0; box-sizing:border-box; }
 
-/* El cursor personalizado solo aplica a dispositivos con ratón (PC) */
 @media (pointer: fine) {
   * { cursor: none !important; }
 }
@@ -29,14 +28,19 @@
 html, body { 
   min-height: 100vh;
   font-family: var(--font); 
-  background: #06070e url('1000014974.jpg') no-repeat center center fixed; 
-  background-size: cover;
+  background-color: #06070e; 
   color: #ccc; 
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-user-select: none; 
   user-select: none;
+
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
+
 
 body::before {
   content: "";
@@ -46,7 +50,6 @@ body::before {
   z-index: 1;
 }
 
-/* --- MENÚ DE INICIO --- */
 #startup-menu {
   position: fixed;
   inset: 0;
@@ -60,11 +63,13 @@ body::before {
   transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s;
 }
 
+
+
 #startup-menu::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.85);
   z-index: -1;
 }
 
@@ -100,33 +105,16 @@ body::before {
 
 .menu-hidden { transform: translateY(-100%) !important; opacity: 0; pointer-events: none; }
 
-@keyframes pulseLogo {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
+@keyframes pulseLogo { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* CURSOR */
 #custom-cursor {
-  position: fixed;
-  width: 25px; height: 25px;
-  border: 2px solid var(--gold);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 30000;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px var(--gold-glow);
-  transition: width 0.1s, height 0.1s;
-  display: none;
+  position: fixed; width: 25px; height: 25px; border: 2px solid var(--gold);
+  border-radius: 50%; pointer-events: none; z-index: 30000;
+  transform: translate(-50%, -50%); box-shadow: 0 0 10px var(--gold-glow);
+  transition: width 0.1s, height 0.1s; display: none;
 }
-@media (pointer: fine) {
-  #custom-cursor { display: block; }
-}
-
+@media (pointer: fine) { #custom-cursor { display: block; } }
 #custom-cursor::after {
   content: ''; position: absolute; top: 50%; left: 50%;
   width: 4px; height: 4px; background: var(--gold-glow);
@@ -136,64 +124,25 @@ body::before {
 
 #canvas{ position:fixed; inset:0; pointer-events:none; z-index:2; }
 
-.page{ 
-  position:relative; 
-  z-index:3; 
-  min-height: 100vh; 
-  display:flex; 
-  flex-direction:column; 
-  align-items:center; 
-  justify-content:center; 
-  padding: 80px 16px 40px;
-}
+.page{ position:relative; z-index:3; min-height: 100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 80px 16px 40px; }
 
 .main-card{
-  width:100%; max-width:1200px;
-  background: rgba(8, 9, 18, 0.6); 
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:6px;
-  backdrop-filter:blur(15px);
-  box-shadow: 0 40px 100px rgba(0,0,0,0.9);
-  overflow:hidden;
-  animation:cardIn 1s cubic-bezier(.2,0,.2,1) both;
+  width:100%; max-width:1200px; background: rgba(8, 9, 18, 0.6); 
+  border:1px solid rgba(255,255,255,0.1); border-radius:6px;
+  backdrop-filter:blur(15px); box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+  overflow:hidden; animation:cardIn 1s cubic-bezier(.2,0,.2,1) both;
 }
 @keyframes cardIn{ from{opacity:0;transform:translateY(40px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
 
 .card-header { text-align: center; padding: 20px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
 .top-logo-container { display: flex; justify-content: center; width: 100%; margin-bottom: 10px; }
 .top-logo-img { height: 45px; width: auto; filter: drop-shadow(0 0 12px rgba(201, 162, 39, 0.6)); pointer-events: none; }
 
-/* AJUSTE DINÁMICO DEL TÍTULO */
-.main-title{ 
-  font-size: clamp(1.1rem, 5vw, 2.8rem); 
-  font-weight: bold; 
-  background: linear-gradient(135deg,#fff,var(--gold-glow),#fff); 
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent; 
-  letter-spacing: 1px; 
-  margin-bottom: 5px;
-  line-height: 1.2;
-}
+.main-title{ font-size: clamp(1.1rem, 5vw, 2.8rem); font-weight: bold; background: linear-gradient(135deg,#fff,var(--gold-glow),#fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; margin-bottom: 5px; line-height: 1.2; }
+.main-subtitle{ font-size: clamp(0.65rem, 2.5vw, 0.8rem); color: var(--gold); letter-spacing: 1px; opacity: 0.8; max-width: 800px; margin: 0 auto; line-height: 1.4; }
 
-.main-subtitle{ 
-  font-size: clamp(0.65rem, 2.5vw, 0.8rem); 
-  color: var(--gold); 
-  letter-spacing: 1px; 
-  opacity: 0.8; 
-  max-width: 800px; 
-  margin: 0 auto; 
-  line-height: 1.4; 
-}
-
-/* MEDIA QUERY ESPECÍFICA PARA MÓVILES PEQUEÑOS */
 @media (max-width: 480px) {
-  .menu-logo-big { 
-    height: auto; 
-    width: 250px; 
-    max-width: 80vw;
-    margin-bottom: 25px; 
-  }
+  .menu-logo-big { height: auto; width: 250px; max-width: 80vw; margin-bottom: 25px; }
   .main-title { font-size: 1.15rem; letter-spacing: 0.5px; padding: 0 10px; }
   .main-subtitle { font-size: 0.6rem; padding: 0 15px; }
   .top-logo-img { height: 35px; }
@@ -202,25 +151,14 @@ body::before {
 
 .voto-subtitle { font-size: 0.8rem; color: #a0d8f5; margin: 15px 0; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; text-shadow: 0 0 8px rgba(91, 184, 232, 0.4); padding: 0 10px;}
 
-.fighters{ 
-  display: flex; 
-  flex-direction: column; 
-  gap: 15px;
-  padding: 10px;
-}
-@media (min-width: 900px) {
-  .fighters { 
-    display: grid; 
-    grid-template-columns: 1fr auto 1fr auto 1fr; 
-    align-items: stretch; 
-    gap: 0;
-    padding: 0;
-  }
-}
+.unvote-container { text-align: center; margin-bottom: 20px; display: none; }
+.unvote-btn { padding: 8px 20px; font-family: var(--font); font-size: 0.65rem; letter-spacing: 2px; border: 1px solid rgba(255, 76, 76, 0.5); border-radius: 2px; transition: all 0.3s; background: rgba(255, 76, 76, 0.05); color: #ff4c4c; text-transform: uppercase; pointer-events: auto; cursor: pointer; }
+.unvote-btn:hover { background: rgba(255, 76, 76, 0.2); border-color: #ff4c4c; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 76, 76, 0.3); }
 
+.fighters{ display: flex; flex-direction: column; gap: 15px; padding: 10px; }
+@media (min-width: 900px) { .fighters { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 0; padding: 0; } }
 .fighter{ display:flex; flex-direction:column; align-items:center; justify-content: space-between; padding:20px 15px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 @media (min-width: 900px) { .fighter { border-bottom: none; } }
-
 .vs-divider { display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--gold); opacity: 0.4; font-weight: bold; padding: 10px 0; }
 @media (min-width: 900px) { .vs-divider { padding: 0; font-size: 1.2rem; } }
 
@@ -232,12 +170,7 @@ body::before {
 .finfo{ font-size:0.75rem; text-align:center; color:#aab; margin-bottom:20px; max-width:240px; min-height: 40px; display: flex; align-items: center; line-height: 1.4;}
 
 .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center; }
-.info-btn, .vote-btn {
-  padding: 12px 20px; font-family: var(--font); font-size: 0.7rem; letter-spacing: 2px;
-  border: none; border-radius: 2px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
-  width: 180px; text-transform: uppercase; pointer-events: auto; position: relative; overflow: hidden;
-}
-
+.info-btn, .vote-btn { padding: 12px 20px; font-family: var(--font); font-size: 0.7rem; letter-spacing: 2px; border: none; border-radius: 2px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); width: 180px; text-transform: uppercase; pointer-events: auto; position: relative; overflow: hidden; cursor: pointer; }
 .info-btn:hover, .vote-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 15px var(--gold-glow); filter: brightness(1.2); }
 .vote-btn { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
 .viajero .info-btn { background: var(--viajero-color); color: #fff; }
@@ -246,103 +179,71 @@ body::before {
 .vote-btn.active { background: var(--gold) !important; color: #000 !important; box-shadow: 0 0 15px var(--gold-glow); border-color: transparent; }
 
 /* MODAL INFO */
-.modal-overlay { 
-  position: fixed; inset: 0; 
-  background: rgba(0,0,0,0.92); 
-  display: none; align-items: center; justify-content: center; 
-  z-index: 10000; backdrop-filter: blur(15px); 
-  opacity: 0; transition: opacity 0.5s ease; 
-}
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(15px); opacity: 0; transition: opacity 0.5s ease; }
 .modal-overlay.active { display: flex; opacity: 1; }
-
-.modal-card { 
-  width: 90%; max-width: 800px; 
-  background: #0a0c14; border-radius: 8px; 
-  display: flex; 
-  flex-direction: column; 
-  max-height: 85vh; overflow-y: auto;
-  position: relative; border: 1px solid rgba(255,255,255,0.1); 
-  transform: translateY(100px) scale(0.8); 
-  opacity: 0;
-  transition: transform 0.6s cubic-bezier(0.17, 0.84, 0.44, 1), opacity 0.5s; 
-}
-@media (min-width: 768px) {
-  .modal-card { flex-direction: row; overflow: hidden; }
-}
-
+.modal-card { width: 90%; max-width: 800px; background: #0a0c14; border-radius: 8px; display: flex; flex-direction: column; max-height: 85vh; overflow-y: auto; position: relative; border: 1px solid rgba(255,255,255,0.1); transform: translateY(100px) scale(0.8); opacity: 0; transition: transform 0.6s cubic-bezier(0.17, 0.84, 0.44, 1), opacity 0.5s; }
+@media (min-width: 768px) { .modal-card { flex-direction: row; overflow: hidden; } }
 .modal-overlay.active .modal-card { transform: translateY(0) scale(1); opacity: 1; }
 .modal-overlay.closing .modal-card { transform: translateY(-100px) scale(0.8); opacity: 0; }
 .modal-overlay.closing { opacity: 0; }
-
 .modal-left { flex: 1; background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; padding: 30px; }
 .modal-right { flex: 1.2; padding: 30px; }
 .modal-img { max-width: 100%; max-height: 200px; filter: drop-shadow(0 0 30px var(--theme-color)); }
 @media (min-width: 768px) { .modal-img { max-height: 100%; } }
-
 .modal-title { font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: 20px; color: var(--theme-color); }
 .modal-text { line-height: 1.8; color: #ccc; font-family: sans-serif; font-size: 0.9rem;}
-.close-modal { position: absolute; top: 15px; right: 20px; font-size: 2.5rem; color: #fff; opacity: 0.7; z-index: 10;}
+.close-modal { position: absolute; top: 15px; right: 20px; font-size: 2.5rem; color: #fff; opacity: 0.7; z-index: 10; cursor: pointer;}
 
 /* SIDEBAR */
-.menu-open-btn { position: fixed; top: 15px; left: 15px; z-index: 5000; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--gold); color: var(--gold); padding: 10px 15px; font-family: var(--font); border-radius: 4px; pointer-events: auto; }
-.sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: rgba(8, 9, 18, 0.98); backdrop-filter: blur(20px); border-right: 1px solid rgba(255, 255, 255, 0.1); z-index: 15000; transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1); padding: 40px 20px; display: flex; flex-direction: column; }
-.sidebar.open { left: 0; }
+.menu-open-btn { position: fixed; top: 15px; left: 15px; z-index: 5000; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--gold); color: var(--gold); padding: 10px 15px; font-family: var(--font); border-radius: 4px; pointer-events: auto; cursor: pointer; }
+.sidebar { position: fixed; top: 0; left: 0; transform: translateX(-100%); width: 280px; height: 100%; background: rgba(8, 9, 18, 0.98); backdrop-filter: blur(20px); border-right: 1px solid rgba(255, 255, 255, 0.1); z-index: 15000; transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1); padding: 40px 20px; display: flex; flex-direction: column; }
+.sidebar.open { transform: translateX(0); }
 .sidebar-title { color: var(--gold); font-size: 1.2rem; margin-bottom: 30px; text-align: center; border-bottom: 1px solid rgba(201, 162, 39, 0.3); padding-bottom: 10px; }
 .preview-container { width: 100%; height: 120px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 20px; background-size: cover; background-position: center; border-radius: 4px; }
-.bg-option { padding: 12px; margin-bottom: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #ccc; text-align: center; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
+.bg-option { padding: 12px; margin-bottom: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #ccc; text-align: center; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; cursor: pointer;}
 .bg-option:hover { border-color: var(--gold); color: #fff; }
 .bg-option.selected { background: var(--gold); color: #000; }
-.close-sidebar { align-self: flex-end; color: #fff; font-size: 2rem; margin-bottom: 10px; line-height: 1;}
-
+.close-sidebar { align-self: flex-end; color: #fff; font-size: 2rem; margin-bottom: 10px; line-height: 1; cursor: pointer;}
 #sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 14000; display: none; opacity: 0; transition: 0.5s; }
 #sidebar-overlay.active { display: block; opacity: 1; }
 
-/* ESTILOS OPCIONES FONDO PERSONALIZADO */
-.custom-bg-wrapper { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin-bottom: 8px; }
-.custom-bg-wrapper .bg-option { flex-grow: 1; margin-bottom: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 12px 5px;}
-.edit-bg-btn { background: rgba(201, 162, 39, 0.1); border: 1px solid rgba(201, 162, 39, 0.3); color: var(--gold); border-radius: 4px; padding: 10px; transition: 0.3s; display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; pointer-events: auto;}
-.edit-bg-btn:hover { background: rgba(201, 162, 39, 0.4); border-color: var(--gold); color: #fff; transform: scale(1.05); }
-.delete-bg-btn { background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 0, 0, 0.3); color: #ff4c4c; border-radius: 4px; padding: 10px; transition: 0.3s; display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; pointer-events: auto;}
-.delete-bg-btn:hover { background: rgba(255, 0, 0, 0.4); border-color: #ff4c4c; color: #fff; transform: scale(1.05); }
+.music-control { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: rgba(0,0,0,0.8); border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5000; color: var(--gold); pointer-events: auto; font-size: 1.2rem; cursor: pointer;}
 
-/* ESTILOS MODAL PERSONALIZADO (RENOMBRAR/ELIMINAR) */
-#custom-dialog-overlay {
-  position: fixed; inset: 0; 
-  background: rgba(0,0,0,0.85); 
-  display: none; align-items: center; justify-content: center; 
-  z-index: 25000; backdrop-filter: blur(10px); 
-  opacity: 0; transition: opacity 0.4s ease; 
-}
-#custom-dialog-overlay.active { opacity: 1; }
-.dialog-card {
-  width: 90%; max-width: 380px; 
-  background: #0a0c14; border-radius: 8px; 
-  border: 1px solid var(--gold); 
-  box-shadow: 0 0 25px rgba(201, 162, 39, 0.2);
-  padding: 30px 20px; text-align: center;
-  transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.17, 0.84, 0.44, 1);
-}
-#custom-dialog-overlay.active .dialog-card { transform: scale(1); }
-.dialog-title { color: var(--gold); font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; }
-.dialog-text { font-size: 0.85rem; color: #ccc; margin-bottom: 20px; line-height: 1.5; font-family: sans-serif;}
-.dialog-input {
-  width: 100%; padding: 12px; margin-bottom: 25px;
-  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
-  color: #fff; font-family: var(--font); outline: none; border-radius: 4px;
-  text-align: center; font-size: 1rem;
-}
-.dialog-input:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(201, 162, 39, 0.4); }
-.dialog-btn-container { display: flex; gap: 15px; justify-content: center; }
-.dialog-btn { 
-  padding: 10px 20px; font-family: var(--font); font-size: 0.7rem; letter-spacing: 2px;
-  border: none; border-radius: 2px; transition: all 0.3s; text-transform: uppercase; cursor: pointer;
-}
-.dialog-btn.cancel { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
-.dialog-btn.cancel:hover { background: rgba(255,255,255,0.1); }
-.dialog-btn.confirm { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-glow); }
-.dialog-btn.confirm:hover { background: #fff; box-shadow: 0 0 20px #fff; }
+/* TERMINAL */
+#terminal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 30000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease; }
+#terminal-overlay.active { display: flex; opacity: 1; }
+.terminal-window { width: 90%; max-width: 700px; height: 60vh; background: rgba(8, 9, 18, 0.95); border: 1px solid var(--gold); border-radius: 6px; box-shadow: 0 0 30px rgba(201, 162, 39, 0.3); display: flex; flex-direction: column; font-family: monospace; overflow: hidden; }
+.terminal-header { background: rgba(201, 162, 39, 0.2); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gold); color: var(--gold); font-family: var(--font); font-size: 0.9rem; letter-spacing: 1px; }
+.close-terminal { cursor: pointer; font-size: 1.5rem; line-height: 1; }
+.close-terminal:hover { color: #fff; }
+.terminal-output { flex: 1; padding: 15px; overflow-y: auto; color: #a0d8f5; font-size: 0.95rem; line-height: 1.6; text-shadow: 0 0 5px rgba(91, 184, 232, 0.5); display: flex; flex-direction: column; gap: 8px; }
+.terminal-input-line { display: flex; padding: 10px 15px; border-top: 1px solid rgba(255,255,255,0.1); background: #000; align-items: center; }
+.prompt { color: var(--gold); margin-right: 10px; font-weight: bold; }
+#terminal-input { flex: 1; background: transparent; border: none; color: #fff; font-family: monospace; font-size: 1rem; outline: none; text-shadow: 0 0 5px rgba(255,255,255,0.5); width: 100%; }
+.mobile-term-btn { display: none; background: rgba(201, 162, 39, 0.1); border: 1px solid var(--gold); color: var(--gold); width: 35px; height: 35px; border-radius: 4px; margin-left: 8px; font-size: 1.2rem; cursor: pointer; align-items: center; justify-content: center; transition: 0.2s; }
+.mobile-term-btn:active { background: var(--gold); color: #000; }
+@media (max-width: 768px) { .mobile-term-btn { display: flex; } }
 
-.music-control { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: rgba(0,0,0,0.8); border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5000; color: var(--gold); pointer-events: auto; font-size: 1.2rem;}
+/* TOAST */
+#toast-container { position: fixed; bottom: 80px; right: 20px; z-index: 40000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { width: 280px; background: rgba(10, 12, 20, 0.95); border: 1px solid var(--theme-color); border-radius: 6px; position: relative; overflow: hidden; display: flex; align-items: center; padding: 12px 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.8); pointer-events: auto; animation: slideInRight 0.4s cubic-bezier(0.17, 0.84, 0.44, 1) forwards; }
+.toast.hiding { animation: slideOutRight 0.4s ease-in forwards; }
+.toast-img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 1px solid var(--theme-color); box-shadow: 0 0 10px var(--theme-color); }
+.toast-text { color: #fff; font-size: 0.8rem; flex: 1; line-height: 1.4; font-family: sans-serif; }
+.toast-text b { color: var(--theme-color); font-family: var(--font); letter-spacing: 0.5px;}
+.toast-close { position: absolute; top: 5px; right: 10px; color: #fff; cursor: pointer; font-size: 1.2rem; opacity: 0.6; line-height: 1; }
+.toast-close:hover { opacity: 1; }
+.toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--theme-color); width: 100%; transform-origin: left; animation: shrinkProgress 4s linear forwards; }
+@keyframes slideInRight { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes slideOutRight { to { transform: translateX(120%); opacity: 0; } }
+@keyframes shrinkProgress { to { transform: scaleX(0); } }
+@media (max-width: 480px) {
+  #toast-container { bottom: auto; top: 20px; right: 50%; transform: translateX(50%); align-items: center; }
+  .toast { animation: slideInTop 0.4s cubic-bezier(0.17, 0.84, 0.44, 1) forwards; }
+  .toast.hiding { animation: slideOutTop 0.4s ease-in forwards; }
+  @keyframes slideInTop { from { transform: translateY(-120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes slideOutTop { to { transform: translateY(-120%); opacity: 0; } }
+}
 </style>
 </head>
 <body>
@@ -351,7 +252,7 @@ body::before {
   <div class="menu-content">
     <img src="1000015002.png" alt="Logo Rivalidad" class="menu-logo-big">
     <br>
-    <button class="start-btn" onclick="comenzarDuelo()">Ver Duelo</button>
+    <button class="start-btn" onclick="comenzarDuelo()">Comenzar Duelo</button>
   </div>
 </div>
 
@@ -367,15 +268,36 @@ body::before {
     <div class="bg-option" onclick="changeBackground('hielo', 'ff.jpg')" onmouseover="updatePreview('ff.jpg')">Hielo</div>
     <div class="bg-option" onclick="changeBackground('riqueza', 'rc.webp')" onmouseover="updatePreview('rc.webp')">Riqueza</div>
     
-    <div id="custom-bg-container"></div>
-    <input type="file" id="bg-upload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
-    <label for="bg-upload" class="bg-option" style="margin-top: 15px; border-style: dashed; display: block; pointer-events: auto;">+ SUBIR IMAGEN</label>
+    <div class="bg-option" style="margin-top: auto; border-color: var(--gold); color: var(--gold); text-shadow: 0 0 8px rgba(201, 162, 39, 0.4);" onclick="openTerminal()">[ ? ]</div>
 </div>
+
+<div id="terminal-overlay" onclick="if(event.target == this) closeTerminal()">
+  <div class="terminal-window">
+    <div class="terminal-header">
+      <span>BATTLEWOOD_OS v1.0.4 - Terminal</span>
+      <span class="close-terminal" onclick="closeTerminal()">&times;</span>
+    </div>
+    <div class="terminal-output" id="terminal-output">
+      <div style="color: var(--gold);">> Buscando sistema de datos... OK</div>
+      <div style="color: var(--gold);">> Accediendo a archivos clasificados de la Rivalidad... OK</div>
+      <div>> Escribe 'help' para ver los comandos de desencriptación disponibles.</div>
+    </div>
+    <div class="terminal-input-line">
+      <span class="prompt">></span>
+      <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
+      <button class="mobile-term-btn" onclick="historyUp()" title="Comando anterior">▲</button>
+      <button class="mobile-term-btn" onclick="historyDown()" title="Comando siguiente">▼</button>
+      <button class="mobile-term-btn" onclick="submitTerminalCommand()" title="Enviar comando">✓</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
 
 <div id="custom-cursor"></div>
 <canvas id="canvas"></canvas>
 
-<audio id="bgMusic" loop><source src="rival.mp3" type="audio/mpeg"></audio>
+<audio id="bgMusic" loop><source id="musicSource" src="rival.mp3" type="audio/mpeg"></audio>
 <div class="music-control" onclick="toggleMusic(event)"><span id="music-icon">▶</span></div>
 
 <div class="modal-overlay" id="modal" onclick="if(event.target == this) closeModal()">
@@ -385,18 +307,6 @@ body::before {
     <div class="modal-right">
       <h2 id="mTitle" class="modal-title"></h2>
       <p id="mText" class="modal-text"></p>
-    </div>
-  </div>
-</div>
-
-<div id="custom-dialog-overlay" onclick="if(event.target == this) closeCustomDialog(false)">
-  <div class="dialog-card">
-    <h3 id="dialog-title" class="dialog-title"></h3>
-    <p id="dialog-text" class="dialog-text"></p>
-    <input type="text" id="dialog-input" class="dialog-input" autocomplete="off" />
-    <div class="dialog-btn-container">
-      <button id="dialog-btn-cancel" class="dialog-btn cancel" onclick="closeCustomDialog(false)">Cancelar</button>
-      <button id="dialog-btn-confirm" class="dialog-btn confirm" onclick="closeCustomDialog(true)">Aceptar</button>
     </div>
   </div>
 </div>
@@ -412,6 +322,10 @@ body::before {
     </div>
 
     <p class="voto-subtitle">Vota a quién crees que se quedará con los fragmentos.</p>
+    
+    <div class="unvote-container" id="unvote-container">
+        <button class="unvote-btn" onclick="removeVote()">QUITAR VOTO</button>
+    </div>
 
     <div class="fighters">
       <div class="fighter viajero">
@@ -420,7 +334,7 @@ body::before {
         <div class="finfo">Visitante malicioso de otro mundo.</div>
         <div class="btn-group">
             <button class="info-btn" onclick="openModal('viajero')">✦ INFO</button>
-            <button class="vote-btn" onclick="castVote(this)">VOTAR</button>
+            <button class="vote-btn" onclick="castVote('viajero')">VOTAR</button>
         </div>
       </div>
 
@@ -432,7 +346,7 @@ body::before {
         <div class="finfo">Magnate con reputación dudosa.</div>
         <div class="btn-group">
             <button class="info-btn" onclick="openModal('victor')">✦ INFO</button>
-            <button class="vote-btn" onclick="castVote(this)">VOTAR</button>
+            <button class="vote-btn" onclick="castVote('blanco')">VOTAR</button>
         </div>
       </div>
 
@@ -444,7 +358,7 @@ body::before {
         <div class="finfo">Soberano del Reino de Hielo.</div>
         <div class="btn-group">
             <button class="info-btn" onclick="openModal('rey')">✦ INFO</button>
-            <button class="vote-btn" onclick="castVote(this)">VOTAR</button>
+            <button class="vote-btn" onclick="castVote('rey')">VOTAR</button>
         </div>
       </div>
     </div>
@@ -491,16 +405,28 @@ function comenzarDuelo() {
   }
 }
 
-function castVote(clickedBtn) {
-  const allVoteBtns = document.querySelectorAll('.vote-btn');
-  allVoteBtns.forEach(btn => {
+function removeVote() {
+  localStorage.removeItem('votoPuntoCero');
+  document.querySelectorAll('.vote-btn').forEach(btn => {
     btn.classList.remove('active');
     btn.innerText = 'VOTAR';
   });
-  clickedBtn.classList.add('active');
-  clickedBtn.innerText = 'Se los quedará él';
-  const characterName = clickedBtn.closest('.fighter').classList[1]; 
-  localStorage.setItem('votoPuntoCero', characterName);
+  document.getElementById('unvote-container').style.display = 'none'; 
+}
+
+function castVote(characterClass) {
+  removeVote(); 
+  const targetBtn = document.querySelector(`.${characterClass} .vote-btn`);
+  if (targetBtn) {
+    targetBtn.classList.add('active');
+    targetBtn.innerText = 'Se los quedará él';
+    localStorage.setItem('votoPuntoCero', characterClass);
+    document.getElementById('unvote-container').style.display = 'block'; 
+    
+    let dataId = characterClass;
+    if (characterClass === 'blanco') dataId = 'victor';
+    showToast(dataId);
+  }
 }
 
 const data = {
@@ -508,6 +434,33 @@ const data = {
   victor: { title: "Victor Chávez", img: "1000014981.png", color: "#ffffff", text: "Un hombre que le sobra el dinero debido a sus amañadas salas de juegos de apuesta, y a su oculto negocio de contrabando... el Punto Cero le ha hecho efecto a su cuerpo, y lo necesita para buscar una solución para arreglarse. Con metodos dudosos, obviamente." },
   rey: { title: "Rey Helado", img: "1000014978.png", color: "#5bb8e8", text: "Variante del Rey Helado del Universo Cero. Esta vez, es el malvado rey del Reino Helado, y no podía no aprovecharse de la oportunidad de conseguir los fragmentos divididos de algo muy poderoso... Por eso, llegó al país acompañado de un glaciar con su castillo." }
 };
+
+function showToast(characterId) {
+    const charData = data[characterId];
+    if(!charData) return;
+
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.style.setProperty('--theme-color', charData.color);
+
+    toast.innerHTML = `
+        <img src="${charData.img}" class="toast-img">
+        <div class="toast-text">Has establecido tu voto a <br><b>${charData.title}</b></div>
+        <div class="toast-close" onclick="closeToast(this.parentElement)">&times;</div>
+        <div class="toast-progress"></div>
+    `;
+
+    container.appendChild(toast);
+    const timeout = setTimeout(() => { closeToast(toast); }, 4000);
+    toast.dataset.timeoutId = timeout;
+}
+
+function closeToast(toastElement) {
+    if(toastElement.dataset.timeoutId) clearTimeout(toastElement.dataset.timeoutId);
+    toastElement.classList.add('hiding');
+    setTimeout(() => { if(toastElement.parentElement) toastElement.parentElement.removeChild(toastElement); }, 400);
+}
 
 const modal = document.getElementById('modal');
 function openModal(id) {
@@ -549,11 +502,31 @@ function closeModal() {
 })();
 
 function toggleMusic(e) {
-  e.stopPropagation();
+  if (e) e.stopPropagation();
   const music = document.getElementById('bgMusic');
   const musicIcon = document.getElementById('music-icon');
   if (music.paused) { music.play(); musicIcon.innerText = '⏸'; }
   else { music.pause(); musicIcon.innerText = '▶'; }
+}
+
+function setMusicTrack(type) {
+  const music = document.getElementById('bgMusic');
+  const source = document.getElementById('musicSource');
+  const wasPlaying = !music.paused;
+  
+  if (type === 'epic') {
+    source.src = 'epic.mp3'; 
+    localStorage.setItem('userMusicTrack', 'epic');
+  } else {
+    source.src = 'rival.mp3';
+    localStorage.setItem('userMusicTrack', 'normal');
+  }
+  
+  music.load();
+  if (wasPlaying) {
+      music.play().catch(e => console.log("Reproducción automática bloqueada"));
+      document.getElementById('music-icon').innerText = '⏸';
+  }
 }
 
 const sidebar = document.getElementById('sidebar');
@@ -578,155 +551,185 @@ function changeBackground(name, url) {
         opt.classList.remove('selected');
         if(opt.innerText.toLowerCase() === name.toLowerCase()) opt.classList.add('selected');
     });
-    if(window.innerWidth < 768) {
-        toggleSidebar();
-    }
 }
 
-/* --- SISTEMA DE DIÁLOGOS PERSONALIZADOS --- */
-let currentDialogCallback = null;
-
-function openCustomDialog(type, title, text, defaultInputValue, onConfirmCallback) {
-    const overlay = document.getElementById('custom-dialog-overlay');
-    const inputEl = document.getElementById('dialog-input');
-    const textEl = document.getElementById('dialog-text');
-    const cancelBtn = document.getElementById('dialog-btn-cancel');
-    
-    document.getElementById('dialog-title').innerText = title;
-    
-    if (text) {
-        textEl.innerText = text;
-        textEl.style.display = 'block';
-    } else {
-        textEl.style.display = 'none';
-    }
-
-    if (type === 'input') {
-        inputEl.style.display = 'block';
-        inputEl.value = defaultInputValue || '';
-    } else {
-        inputEl.style.display = 'none';
-    }
-
-    if (type === 'alert') {
-        cancelBtn.style.display = 'none';
-    } else {
-        cancelBtn.style.display = 'block';
-    }
-
-    currentDialogCallback = onConfirmCallback;
-    
-    overlay.style.display = 'flex';
-    setTimeout(() => {
-        overlay.classList.add('active');
-        if(type === 'input') inputEl.focus();
-    }, 10);
+function openTerminal() {
+  const t = document.getElementById('terminal-overlay');
+  t.style.display = 'flex';
+  setTimeout(() => { 
+    t.classList.add('active'); 
+    document.getElementById('terminal-input').focus(); 
+  }, 10);
+  if(sidebar.classList.contains('open')) toggleSidebar();
 }
 
-function closeCustomDialog(isConfirm) {
-    const overlay = document.getElementById('custom-dialog-overlay');
-    const inputEl = document.getElementById('dialog-input');
-    
-    if (isConfirm && currentDialogCallback) {
-        const returnValue = inputEl.style.display === 'block' ? inputEl.value : true;
-        currentDialogCallback(returnValue);
-    }
-    
-    overlay.classList.remove('active');
-    setTimeout(() => {
-        overlay.style.display = 'none';
-        currentDialogCallback = null;
-    }, 400);
+function closeTerminal() {
+  const t = document.getElementById('terminal-overlay');
+  t.classList.remove('active');
+  setTimeout(() => { t.style.display = 'none'; }, 300);
 }
 
-// Enter para aceptar en el input
-document.getElementById('dialog-input').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') { closeCustomDialog(true); }
+const terminalInput = document.getElementById('terminal-input');
+const terminalOutput = document.getElementById('terminal-output');
+let cmdHistory = [];
+let historyIndex = -1;
+
+terminalInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    submitTerminalCommand();
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    historyUp();
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    historyDown();
+  }
 });
 
-/* LÓGICA DE SUBIDA, GUARDADO Y BORRADO DE FONDO PERSONALIZADO */
-function renderCustomBackground() {
-    const container = document.getElementById('custom-bg-container');
-    const savedData = localStorage.getItem('customUserBg');
-    const savedName = localStorage.getItem('customUserBgName');
+function submitTerminalCommand() {
+  const val = terminalInput.value.trim();
+  if (val) {
+    cmdHistory.push(val);
+    historyIndex = cmdHistory.length;
+    printTerminal("> " + val, "var(--white-glow)");
+    processCommand(val.toLowerCase());
+  }
+  terminalInput.value = '';
+  terminalInput.focus();
+}
+
+function historyUp() {
+  if (cmdHistory.length > 0 && historyIndex > 0) {
+    historyIndex--;
+    terminalInput.value = cmdHistory[historyIndex];
+  }
+}
+
+function historyDown() {
+  if (historyIndex < cmdHistory.length - 1) {
+    historyIndex++;
+    terminalInput.value = cmdHistory[historyIndex];
+  } else {
+    historyIndex = cmdHistory.length;
+    terminalInput.value = '';
+  }
+}
+
+function printTerminal(text, color = "#a0d8f5") {
+  const div = document.createElement('div');
+  div.style.color = color;
+  div.innerText = text;
+  terminalOutput.appendChild(div);
+  terminalOutput.scrollTop = terminalOutput.scrollHeight;
+}
+
+function processCommand(cmd) {
+  const args = cmd.split(' ').filter(Boolean);
+  const base = args[0];
+  const param = args.slice(1).join(' ');
+
+  switch(base) {
+    case 'help':
+      printTerminal("Comandos del sistema:\n/info [nombre], /putimg [fondo], /vote [rival], /quitvote [rival], /stopmsc, /startmsc, /music [epic|normal], clear");
+      break;
     
-    if (savedData && savedName) {
-        container.innerHTML = `
-            <div class="custom-bg-wrapper">
-                <div class="bg-option" onclick="changeBackground('${savedName}', '${savedData}')" onmouseover="updatePreview('${savedData}')">${savedName}</div>
-                <div class="edit-bg-btn" onclick="renameCustomBackground(event)" title="Renombrar fondo subido">✏️</div>
-                <div class="delete-bg-btn" onclick="deleteCustomBackground(event)" title="Eliminar fondo subido">🗑️</div>
-            </div>
-        `;
-        const currentBgName = localStorage.getItem('userBackgroundName');
-        if (currentBgName === savedName) {
-            const opt = container.querySelector('.bg-option');
-            if(opt) opt.classList.add('selected');
-        }
-    } else {
-        container.innerHTML = '';
-    }
-}
+    case '/info':
+      if (param === 'battlewood') {
+        printTerminal("El cinéfilo país Battlewood ha recibido varias anomalías últimamente debido a la inesperada aparición del Punto Cero e inmigrantes de otros planetas y universos. Para el planeta, era uno de los países más relajantes y al que todo el mundo iba a visitar, pero ahora es... una locura...", "#fff");
+      } else if (param === 'viajero') {
+        printTerminal("SUJETO I: Viajero Oscuro. El primer ser en llegar de otro planeta o sistema. No se sabe si es una amenaza, o simplemente quiere los fragmentos del Punto Cero para poder salir del planeta. Los detectores avisan de que su nave está casi sin potencia, o sea que se piensa que es para eso.", "var(--viajero-color)");
+      } else if (param === 'chavez') {
+        printTerminal("SUJETO II: Chávez. Su presencia ya era temible años atrás debido a su riqueza y control en el país, pero ahora, con la disponibilidad para obtener los fragmentos del Punto Cero, es más preocupante la situación. Su apariencia fue alterada por la anómala energía, se desconoce si hay una cura para eso.", "var(--white-glow)");
+      } else if (param === 'rey') {
+        printTerminal("SUJETO III: Rey Helado. Conocido por ser uno de los controladores del mundo más poderosos, su presencia no era vista comúnmente, ya que lo hacía todo a las escondidas. Pero desde que aparecieron los fragmentos, ha utilizado su inmenso poder para adueñarse con una gran parte de Battlewood, llévandose su castillo principal.", "var(--cel)");
+      } else if (!param) {
+        printTerminal("Utilice después de la linea '/info' un nombre en específico.", "#fff");
+      } else if (param === 'puntocero') {
+        printTerminal("OBJETO DE UN ESPACIO DESCONOCIDO: Un gran fragmento impactó en la superfície de Battlewood hace unas semanas, como si fuera un meteorito. Al impactar, se dividió en tres pequeños fragmentos por los alrededores de la isla, y aún así, cada uno de ellos contiene la mayor fuente de energía detectada en la historia del planeta", "var(--gold-glow)");
+      } else if (param === 'visitante') {
+        printTerminal("SUJETO PROVENTIENTE DE UN ESPACIO DESCONOCIDO I: Hombre de altura media con una armadura resistente y con apariencia de otro planeta, o incluso sistema. Sus intenciones desconocidas, aunque se puede suponer que viene a por los fragmentos..", "#ff4c4c");
+      } else if (param === 'fundacion') {
+        printTerminal("SUJETO PROVENTIENTE DE UN ESPACIO DESCONOCIDO II: Hombre de altura alta con una armadura resistente y con apariencia de otro planeta, o incluso sistema. Como se puede ver en su descripción, es muy parecido al primer sujeto, dando así la respuesta de que son compañeros.", "#ff4c4c");
+      } else if (param === 'helios') {
+        printTerminal("SUJETO PROVENTIENTE DE UN ESPACIO DESCONOCIDO III: Hombre de altura alta con armadura con estilo de caballero de era medieval. Podría parecer un simple disfraz, pero se puede ver que tiene efectos de fuego y de electricidad azul a su alrededor, incluyendo unas extrañas largas alas de pájaro a sus espaldas.", "#ff4c4c");
+      } else if (param === 'pentaqus') {
+        printTerminal("SUJETO PROVENTIENTE DE UN ESPACIO DESCONOCIDO IV: Hombre de altura alta con traje morado con máscara de gas. Al comparar a los Sujetos I y II, se nota la similitud. En cambio, entre el Sujeto III y IV, hat diferencias en su apariencia.", "#ff4c4c");
+      } else if (param === 'lupokan') {
+        printTerminal("Mascota y mano derecha personal de Victor Chávez. No hay mucho que decir de él, pero su presencia podría ayudar mucho a Chávez en la rivalidad.", "#ff4c4c");
+      } else if (!param) {
+        printTerminal("Utilice después de la linea '/info' un nombre en específico.", "#fff");
+      } else {
+        printTerminal("Parámetro no reconocido. Opciones válidas: battlewood, viajero, chavez, rey", "#ff4c4c");
+      }
+      break;
 
-function handleImageUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+    case '/putimg':
+      /* CAMBIADO A .PNG COMO SOLICITASTE */
+      const bgMap = { 'rivales': '1000014974.jpg', 'oscuridad': 'o.webp', 'hielo': 'ff.jpg', 'riqueza': 'rc.webp', 'fuckyouts': 'secret.png' };
+      if (bgMap[param]) {
+        changeBackground(param, bgMap[param]);
+        printTerminal(`[OK] Fondo de página actualizado a: ${param.toUpperCase()}`, "var(--gold-glow)");
+      } else {
+        printTerminal("Error: Fondo no encontrado. Use: rivales, oscuridad, hielo, riqueza", "#ff4c4c");
+      }
+      break;
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const dataUrl = e.target.result;
-        
-        openCustomDialog('input', 'Subir Imagen', 'Introduce un nombre para tu imagen de fondo:', 'Mi Fondo', (bgName) => {
-            if (!bgName || bgName.trim() === "") bgName = "Mi Fondo";
-            
-            try {
-                localStorage.setItem('customUserBg', dataUrl);
-                localStorage.setItem('customUserBgName', bgName);
-                renderCustomBackground();
-                changeBackground(bgName, dataUrl);
-                updatePreview(dataUrl);
-            } catch (err) {
-                openCustomDialog('alert', 'Memoria Insuficiente', 'La imagen es demasiado pesada para guardarse en la memoria del navegador. Por favor, intenta con una imagen más ligera.', null, null);
-            }
-        });
-    };
-    reader.readAsDataURL(file);
-    event.target.value = ''; // Resetea el input para poder subir la misma foto si se borra
-}
 
-function renameCustomBackground(e) {
-    e.stopPropagation();
-    const currentName = localStorage.getItem('customUserBgName') || 'Mi Fondo';
-    
-    openCustomDialog('input', 'Renombrar Imagen', 'Escribe el nuevo nombre para tu fondo:', currentName, (newName) => {
-        if (!newName || newName.trim() === "") return;
-        
-        const dataUrl = localStorage.getItem('customUserBg');
-        const isActive = localStorage.getItem('userBackgroundName') === currentName;
-        
-        localStorage.setItem('customUserBgName', newName);
-        renderCustomBackground();
-        
-        if (isActive) {
-            changeBackground(newName, dataUrl);
-        }
-    });
-}
+    case '/vote':
+      let targetVote = param === 'chavez' || param === 'victor' ? 'blanco' : param;
+      if (['viajero', 'blanco', 'rey'].includes(targetVote)) {
+        castVote(targetVote);
+        printTerminal(`[OK] Voto forzado a favor de: ${param.toUpperCase()}`, "var(--gold-glow)");
+      } else {
+        printTerminal("Error: Rival no encontrado. Use: viajero, victor/chavez, rey", "#ff4c4c");
+      }
+      break;
 
-function deleteCustomBackground(e) {
-    e.stopPropagation();
-    openCustomDialog('confirm', 'Eliminar Imagen', '¿Seguro que quieres borrar la imagen que has subido?', null, () => {
-        const isCurrentlyActive = localStorage.getItem('userBackgroundName') === localStorage.getItem('customUserBgName');
-        localStorage.removeItem('customUserBg');
-        localStorage.removeItem('customUserBgName');
-        renderCustomBackground();
-        
-        // Si el fondo borrado era el que estaba puesto en ese momento, devolvemos al predeterminado
-        if(isCurrentlyActive) {
-            changeBackground('rivales', '1000014974.jpg');
-            updatePreview('1000014974.jpg');
-        }
-    });
+    case '/quitvote':
+      let currentVote = localStorage.getItem('votoPuntoCero');
+      let targetParam = param === 'chavez' || param === 'victor' ? 'blanco' : param;
+      
+      if (currentVote && currentVote === targetParam) {
+        removeVote();
+        printTerminal(`[OK] Voto eliminado exitosamente de: ${param.toUpperCase()}`, "var(--gold-glow)");
+      } else if (currentVote) {
+        printTerminal(`No tienes un voto activo para ${param.toUpperCase()}.`, "#ff4c4c");
+      } else {
+        printTerminal("No hay ningún voto activo en el sistema.", "#ff4c4c");
+      }
+      break;
+
+    case '/stopmsc':
+      document.getElementById('bgMusic').pause();
+      document.getElementById('music-icon').innerText = '▶';
+      printTerminal("[OK] Transmisión de audio detenida.", "var(--gold-glow)");
+      break;
+
+    case '/startmsc':
+      document.getElementById('bgMusic').play();
+      document.getElementById('music-icon').innerText = '⏸';
+      printTerminal("[OK] Transmisión de audio reanudada.", "var(--gold-glow)");
+      break;
+
+    case '/music':
+      if (param === 'epic') {
+        setMusicTrack('epic');
+        printTerminal("[OK] Frecuencia de audio sobreescrita a: EPIC", "var(--gold-glow)");
+      } else if (param === 'normal') {
+        setMusicTrack('normal');
+        printTerminal("[OK] Frecuencia de audio restaurada a: NORMAL", "var(--gold-glow)");
+      } else {
+        printTerminal("Error: Pista no reconocida. Use: /music epic, /music normal", "#ff4c4c");
+      }
+      break;
+
+    case 'clear':
+      terminalOutput.innerHTML = '';
+      break;
+
+    default:
+      printTerminal("Comando no reconocido. Comando restringido o inexistente. Usa 'help'.", "#ff4c4c");
+  }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -736,13 +739,21 @@ window.addEventListener('DOMContentLoaded', () => {
     if (fighterDiv) {
       const btn = fighterDiv.querySelector('.vote-btn');
       if(btn) { btn.classList.add('active'); btn.innerText = 'Se los quedará él'; }
+      document.getElementById('unvote-container').style.display = 'block';
     }
   }
   
-  renderCustomBackground(); // Carga la imagen de usuario guardada si existe
-  
+  const savedMusic = localStorage.getItem('userMusicTrack');
+  if (savedMusic && savedMusic === 'epic') {
+    document.getElementById('musicSource').src = 'epic.mp3'; 
+    document.getElementById('bgMusic').load();
+  }
+
   const savedBg = localStorage.getItem('userBackground');
-  if (savedBg) { changeBackground(localStorage.getItem('userBackgroundName'), savedBg); updatePreview(savedBg); }
+  if (savedBg) { 
+    changeBackground(localStorage.getItem('userBackgroundName'), savedBg); 
+    updatePreview(savedBg); 
+  }
 });
 </script>
 </body>
