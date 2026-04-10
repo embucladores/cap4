@@ -34,13 +34,11 @@ html, body {
   overflow-y: auto;
   -webkit-user-select: none; 
   user-select: none;
-
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
-
 
 body::before {
   content: "";
@@ -51,66 +49,49 @@ body::before {
 }
 
 #startup-menu {
-  position: fixed;
-  inset: 0;
-  z-index: 20000;
+  position: fixed; inset: 0; z-index: 20000;
   background: #06070e url('1000014974.jpg') no-repeat center center fixed;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background-size: cover; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
   transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s;
 }
 
-
-
 #startup-menu::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  z-index: -1;
+  content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: -1;
 }
 
 .menu-content { text-align: center; animation: fadeIn 1.5s ease-out; padding: 20px; }
 
 .menu-logo-big {
-  height: clamp(100px, 18vw, 180px);
-  width: auto;
-  margin-bottom: 40px;
-  filter: drop-shadow(0 0 25px var(--gold-glow));
-  animation: pulseLogo 3s infinite ease-in-out;
+  height: clamp(100px, 18vw, 180px); width: auto; margin-bottom: 40px;
+  filter: drop-shadow(0 0 25px var(--gold-glow)); animation: pulseLogo 3s infinite ease-in-out;
+}
+
+#toast-container {
+    z-index: 60000 !important;
+}
+
+#secret-modal {
+    z-index: 70000 !important;
 }
 
 .start-btn {
-  padding: 18px 40px;
-  font-family: var(--font);
-  font-size: clamp(0.9rem, 3.5vw, 1.3rem);
-  color: #000;
-  background: var(--gold);
-  border: none;
-  border-radius: 4px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  box-shadow: 0 0 20px rgba(201, 162, 39, 0.5);
+  padding: 18px 40px; font-family: var(--font); font-size: clamp(0.9rem, 3.5vw, 1.3rem);
+  color: #000; background: var(--gold); border: none; border-radius: 4px;
+  letter-spacing: 4px; text-transform: uppercase; box-shadow: 0 0 20px rgba(201, 162, 39, 0.5);
   transition: 0.3s;
 }
 
-.start-btn:hover {
-  transform: scale(1.1);
-  background: #fff;
-  box-shadow: 0 0 30px #fff;
-}
-
+.start-btn:hover { transform: scale(1.1); background: #fff; box-shadow: 0 0 30px #fff; }
 .menu-hidden { transform: translateY(-100%) !important; opacity: 0; pointer-events: none; }
 
 @keyframes pulseLogo { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
+/* CURSOR */
 #custom-cursor {
   position: fixed; width: 25px; height: 25px; border: 2px solid var(--gold);
-  border-radius: 50%; pointer-events: none; z-index: 30000;
+  border-radius: 50%; pointer-events: none; z-index: 110000;
   transform: translate(-50%, -50%); box-shadow: 0 0 10px var(--gold-glow);
   transition: width 0.1s, height 0.1s; display: none;
 }
@@ -136,7 +117,7 @@ body::before {
 
 .card-header { text-align: center; padding: 20px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 .top-logo-container { display: flex; justify-content: center; width: 100%; margin-bottom: 10px; }
-.top-logo-img { height: 45px; width: auto; filter: drop-shadow(0 0 12px rgba(201, 162, 39, 0.6)); pointer-events: none; }
+.top-logo-img { height: 45px; width: auto; filter: drop-shadow(0 0 12px rgba(201, 162, 39, 0.6)); pointer-events: auto; cursor: pointer; }
 
 .main-title{ font-size: clamp(1.1rem, 5vw, 2.8rem); font-weight: bold; background: linear-gradient(135deg,#fff,var(--gold-glow),#fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; margin-bottom: 5px; line-height: 1.2; }
 .main-subtitle{ font-size: clamp(0.65rem, 2.5vw, 0.8rem); color: var(--gold); letter-spacing: 1px; opacity: 0.8; max-width: 800px; margin: 0 auto; line-height: 1.4; }
@@ -178,21 +159,41 @@ body::before {
 .rey .info-btn { background: var(--cel); color: #fff; }
 .vote-btn.active { background: var(--gold) !important; color: #000 !important; box-shadow: 0 0 15px var(--gold-glow); border-color: transparent; }
 
-/* MODAL INFO */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(15px); opacity: 0; transition: opacity 0.5s ease; }
+/* MODALS DRAGGABLE (GENERAL) */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(15px); opacity: 0; transition: opacity 0.5s ease; pointer-events: auto;}
 .modal-overlay.active { display: flex; opacity: 1; }
-.modal-card { width: 90%; max-width: 800px; background: #0a0c14; border-radius: 8px; display: flex; flex-direction: column; max-height: 85vh; overflow-y: auto; position: relative; border: 1px solid rgba(255,255,255,0.1); transform: translateY(100px) scale(0.8); opacity: 0; transition: transform 0.6s cubic-bezier(0.17, 0.84, 0.44, 1), opacity 0.5s; }
+.modal-drag-handle { position: absolute; top: 0; left: 0; width: 100%; height: 40px; cursor: move; z-index: 5;}
+.close-modal { position: absolute; top: 5px; right: 15px; font-size: 2.5rem; color: #fff; opacity: 0.7; z-index: 10; cursor: pointer; line-height: 1;}
+
+/* MODAL INFO PERSONAJES */
+.modal-card { width: 90%; max-width: 800px; background: #0a0c14; border-radius: 8px; display: flex; flex-direction: column; max-height: 85vh; overflow-y: auto; position: absolute; border: 1px solid rgba(255,255,255,0.1); transform: translateY(100px) scale(0.8); opacity: 0; transition: transform 0.6s cubic-bezier(0.17, 0.84, 0.44, 1), opacity 0.5s; box-shadow: 0 15px 50px rgba(0,0,0,0.8);}
 @media (min-width: 768px) { .modal-card { flex-direction: row; overflow: hidden; } }
 .modal-overlay.active .modal-card { transform: translateY(0) scale(1); opacity: 1; }
 .modal-overlay.closing .modal-card { transform: translateY(-100px) scale(0.8); opacity: 0; }
 .modal-overlay.closing { opacity: 0; }
-.modal-left { flex: 1; background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; padding: 30px; }
-.modal-right { flex: 1.2; padding: 30px; }
-.modal-img { max-width: 100%; max-height: 200px; filter: drop-shadow(0 0 30px var(--theme-color)); }
+
+.modal-left { flex: 1; background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center; padding: 40px 30px 30px; pointer-events: none;}
+.modal-right { flex: 1.2; padding: 40px 30px 30px; }
+.modal-img { max-width: 100%; max-height: 200px; filter: drop-shadow(0 0 30px var(--theme-color)); pointer-events: none;}
 @media (min-width: 768px) { .modal-img { max-height: 100%; } }
 .modal-title { font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: 20px; color: var(--theme-color); }
 .modal-text { line-height: 1.8; color: #ccc; font-family: sans-serif; font-size: 0.9rem;}
-.close-modal { position: absolute; top: 15px; right: 20px; font-size: 2.5rem; color: #fff; opacity: 0.7; z-index: 10; cursor: pointer;}
+
+/* MODAL SECRETOS (TROFEOS) */
+.secrets-card { max-width: 600px; width: 90%; max-height: 80vh; background: #06070e; border: 1px solid var(--gold); position: absolute; border-radius: 8px; box-shadow: 0 15px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column; transform: translateY(100px) scale(0.8); opacity: 0; transition: transform 0.6s cubic-bezier(0.17, 0.84, 0.44, 1), opacity 0.5s;}
+.modal-overlay.active .secrets-card { transform: translateY(0) scale(1); opacity: 1; }
+.modal-overlay.closing .secrets-card { transform: translateY(-100px) scale(0.8); opacity: 0; }
+
+.secret-item { display: flex; align-items: center; padding: 15px; margin-bottom: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; }
+.secret-item.locked { opacity: 0.5; filter: grayscale(100%); }
+.secret-icon { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 15px; background: #000; filter: drop-shadow(0 0 5px var(--gold-glow));}
+.secret-item.locked .secret-icon { filter: none; }
+.secret-info h4 { color: var(--gold); margin-bottom: 5px; font-family: var(--font); font-size: 1.1rem;}
+.secret-info p { font-size: 0.8rem; color: #ccc; font-family: sans-serif; line-height: 1.4;}
+
+/* TROFEO BOTÓN SUPERIOR */
+#secrets-btn { position: fixed; top: 15px; right: 15px; z-index: 5000; background: rgba(0,0,0,0.8); border: 1px solid var(--gold); color: var(--gold); border-radius: 50%; width: 45px; height: 45px; display: none; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; pointer-events: auto; text-shadow: 0 0 10px var(--gold-glow); }
+#secrets-badge { position: absolute; top: -5px; right: -5px; background: #ff4c4c; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.75rem; font-family: sans-serif; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #000; display: none;}
 
 /* SIDEBAR */
 .menu-open-btn { position: fixed; top: 15px; left: 15px; z-index: 5000; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--gold); color: var(--gold); padding: 10px 15px; font-family: var(--font); border-radius: 4px; pointer-events: auto; cursor: pointer; }
@@ -210,10 +211,11 @@ body::before {
 .music-control { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: rgba(0,0,0,0.8); border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5000; color: var(--gold); pointer-events: auto; font-size: 1.2rem; cursor: pointer;}
 
 /* TERMINAL */
-#terminal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 30000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); opacity: 0; transition: opacity 0.3s ease; }
+#terminal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 30000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.3s ease; pointer-events: auto;}
 #terminal-overlay.active { display: flex; opacity: 1; }
-.terminal-window { width: 90%; max-width: 700px; height: 60vh; background: rgba(8, 9, 18, 0.95); border: 1px solid var(--gold); border-radius: 6px; box-shadow: 0 0 30px rgba(201, 162, 39, 0.3); display: flex; flex-direction: column; font-family: monospace; overflow: hidden; }
-.terminal-header { background: rgba(201, 162, 39, 0.2); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gold); color: var(--gold); font-family: var(--font); font-size: 0.9rem; letter-spacing: 1px; }
+/* DRAGGABLE TERMINAL */
+.terminal-window { width: 90%; max-width: 700px; height: 60vh; background: rgba(8, 9, 18, 0.95); border: 1px solid var(--gold); border-radius: 6px; box-shadow: 0 0 30px rgba(201, 162, 39, 0.3); display: flex; flex-direction: column; font-family: monospace; overflow: hidden; position: absolute; }
+.terminal-header { background: rgba(201, 162, 39, 0.2); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gold); color: var(--gold); font-family: var(--font); font-size: 0.9rem; letter-spacing: 1px; cursor: move; }
 .close-terminal { cursor: pointer; font-size: 1.5rem; line-height: 1; }
 .close-terminal:hover { color: #fff; }
 .terminal-output { flex: 1; padding: 15px; overflow-y: auto; color: #a0d8f5; font-size: 0.95rem; line-height: 1.6; text-shadow: 0 0 5px rgba(91, 184, 232, 0.5); display: flex; flex-direction: column; gap: 8px; }
@@ -224,14 +226,15 @@ body::before {
 .mobile-term-btn:active { background: var(--gold); color: #000; }
 @media (max-width: 768px) { .mobile-term-btn { display: flex; } }
 
-/* TOAST */
-#toast-container { position: fixed; bottom: 80px; right: 20px; z-index: 40000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
-.toast { width: 280px; background: rgba(10, 12, 20, 0.95); border: 1px solid var(--theme-color); border-radius: 6px; position: relative; overflow: hidden; display: flex; align-items: center; padding: 12px 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.8); pointer-events: auto; animation: slideInRight 0.4s cubic-bezier(0.17, 0.84, 0.44, 1) forwards; }
+/* TOAST (NOTIFICACIONES) */
+#toast-container { position: fixed; bottom: 80px; right: 20px; z-index: 60000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { width: 300px; background: rgba(10, 12, 20, 0.95); border: 1px solid var(--theme-color); border-radius: 6px; position: relative; overflow: hidden; display: flex; align-items: center; padding: 12px 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.8); pointer-events: auto; animation: slideInRight 0.4s cubic-bezier(0.17, 0.84, 0.44, 1) forwards; transition: transform 0.2s; }
+.toast.clickable:hover { transform: scale(1.02); }
 .toast.hiding { animation: slideOutRight 0.4s ease-in forwards; }
 .toast-img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 1px solid var(--theme-color); box-shadow: 0 0 10px var(--theme-color); }
 .toast-text { color: #fff; font-size: 0.8rem; flex: 1; line-height: 1.4; font-family: sans-serif; }
 .toast-text b { color: var(--theme-color); font-family: var(--font); letter-spacing: 0.5px;}
-.toast-close { position: absolute; top: 5px; right: 10px; color: #fff; cursor: pointer; font-size: 1.2rem; opacity: 0.6; line-height: 1; }
+.toast-close { position: absolute; top: 5px; right: 10px; color: #fff; cursor: pointer; font-size: 1.2rem; opacity: 0.6; line-height: 1; z-index: 10; }
 .toast-close:hover { opacity: 1; }
 .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--theme-color); width: 100%; transform-origin: left; animation: shrinkProgress 4s linear forwards; }
 @keyframes slideInRight { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -252,8 +255,12 @@ body::before {
   <div class="menu-content">
     <img src="1000015002.png" alt="Logo Rivalidad" class="menu-logo-big">
     <br>
-    <button class="start-btn" onclick="comenzarDuelo()">Comenzar Duelo</button>
+    <button class="start-btn" onclick="comenzarDuelo()">Ver Duelo</button>
   </div>
+</div>
+
+<div id="secrets-btn" onclick="openSecrets()" title="Secretos Ocultos">
+    🏆<span id="secrets-badge">0</span>
 </div>
 
 <button class="menu-open-btn" onclick="toggleSidebar()">☰</button>
@@ -272,8 +279,8 @@ body::before {
 </div>
 
 <div id="terminal-overlay" onclick="if(event.target == this) closeTerminal()">
-  <div class="terminal-window">
-    <div class="terminal-header">
+  <div class="terminal-window" id="terminalWindow">
+    <div class="terminal-header" id="terminalHeader">
       <span>BATTLEWOOD_OS v1.0.4 - Terminal</span>
       <span class="close-terminal" onclick="closeTerminal()">&times;</span>
     </div>
@@ -302,6 +309,7 @@ body::before {
 
 <div class="modal-overlay" id="modal" onclick="if(event.target == this) closeModal()">
   <div class="modal-card" id="modalCard">
+    <div class="modal-drag-handle" id="modalHeader"></div>
     <span class="close-modal" onclick="closeModal()">&times;</span>
     <div class="modal-left"><img src="" id="mImg" class="modal-img"></div>
     <div class="modal-right">
@@ -311,13 +319,40 @@ body::before {
   </div>
 </div>
 
+<div class="modal-overlay" id="secrets-overlay" onclick="if(event.target == this) closeSecrets()">
+  <div class="secrets-card" id="secretsCard">
+    <div class="modal-drag-handle" id="secretsHeader"></div>
+    <span class="close-modal" onclick="closeSecrets()">&times;</span>
+    <h2 style="text-align:center; padding: 30px 0 10px; color:var(--gold); font-family:var(--font); letter-spacing:2px; font-size:1.5rem;">COLECCIÓN DE SECRETOS</h2>
+    <div id="secrets-list" style="padding: 20px 30px 20px; overflow-y: auto; display:flex; flex-direction:column; flex: 1;">
+      </div>
+    
+    <div style="padding: 0 30px 30px; text-align: center;">
+        <button class="vote-btn" onclick="borrarSecretos()" style="width: 100%; background: rgba(255, 76, 76, 0.1); border-color: #ff4c4c; color: #ff4c4c; display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <span style="font-size: 1.2rem;">🗑️</span> BORRAR SECRETOS
+        </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="confirm-delete-overlay" onclick="if(event.target == this) cancelBorrarSecretos()" style="z-index: 100000;">
+  <div class="modal-card" style="max-width: 450px; text-align: center; padding: 30px; display: flex; flex-direction: column; align-items: center; pointer-events: auto;">
+    <h2 class="modal-title" style="color: #ff4c4c; font-size: 1.5rem; letter-spacing: 2px;">¿BORRAR SECRETOS?</h2>
+    <p class="modal-text" style="margin-bottom: 25px; font-size: 0.9rem;">Esta acción borrará <b>únicamente</b> los secretos que hayas desbloqueado. Tu voto, tu fondo elegido y tus récords de simulación se mantendrán intactos.<br><br>¿Estás seguro de continuar?</p>
+    <div style="display: flex; gap: 15px; justify-content: center; width: 100%;">
+        <button class="vote-btn" onclick="cancelBorrarSecretos()" style="width: 100%;">CANCELAR</button>
+        <button class="vote-btn" onclick="confirmBorrarSecretos()" style="width: 100%; background: rgba(255, 76, 76, 0.1); border-color: #ff4c4c; color: #ff4c4c;">SÍ, BORRAR</button>
+    </div>
+  </div>
+</div>
+
 <div class="page">
   <div class="main-card">
     <div class="card-header">
       <div class="top-logo-container">
-        <img src="1000015002.png" alt="Icono Superior" class="top-logo-img">
+        <img src="1000015002.png" alt="Icono Superior" class="top-logo-img" onclick="unlockSecret('capitulo_cuatro')">
       </div>
-      <h1 class="main-title">Rivalidad en Battlewood</h1>
+      <h1 class="main-title">Rivalidad en Battlewood<span onclick="unlockSecret('capitulo_cuatro')" style="cursor:pointer; color:inherit; position:relative; z-index:5;" title="???">4</span></h1>
       <h2 class="main-subtitle">Un gran duelo que conducirá hacia la victoria al que obtenga los fragmentos.</h2>
     </div>
 
@@ -366,6 +401,192 @@ body::before {
 </div>
 
 <script>
+/* --- BASE DE DATOS DE SECRETOS --- */
+const SECRETS_DB = {
+    konami: { title: "Código Oculto", desc: '"Veo que a los habitantes de este planeta también les gusta los secretos..."<br>- Viajero Oscuro', img: "viajero-pixel.png" },
+    tim: { title: "1000 dicks for you Tim", desc: "Tim Sweeney, hijo de puta..", img: "fucktim.png" },
+    epic: { title: "Esto cada vez se pone mejor...", desc: "Se avecina una épica dualidad, y que mejor, que poner una épica música.", img: "rival.png" },
+    prometeus: { title: "Más secreto que el padre de Prometeus", desc: "Has descubierto un comando secreto en nuestra terminal, felicidades.", img: "que.png" },
+    capitulo_cuatro: { title: "¡Este es el cuarto capítulo!", desc: "Sigue el legado de algo que ha cambiado tu vida.", img: "1000014982.png" }
+};
+
+let unlockedSecrets = JSON.parse(localStorage.getItem('unlockedSecrets')) || {};
+let unreadSecretsCount = parseInt(localStorage.getItem('unreadSecretsCount')) || 0;
+
+function updateSecretsBadge() {
+    const badge = document.getElementById('secrets-badge');
+    if (unreadSecretsCount > 0) {
+        badge.style.display = 'flex';
+        badge.innerText = unreadSecretsCount;
+    } else {
+        badge.style.display = 'none';
+    }
+}
+
+function checkSecretsVisibility() {
+    const btn = document.getElementById('secrets-btn');
+    if (Object.keys(unlockedSecrets).length > 0) {
+        btn.style.display = 'flex';
+    } else {
+        btn.style.display = 'none';
+    }
+}
+
+function unlockSecret(id) {
+    if (!unlockedSecrets[id]) {
+        unlockedSecrets[id] = true;
+        localStorage.setItem('unlockedSecrets', JSON.stringify(unlockedSecrets));
+        unreadSecretsCount++;
+        localStorage.setItem('unreadSecretsCount', unreadSecretsCount);
+        updateSecretsBadge();
+        checkSecretsVisibility();
+        showSecretToast(SECRETS_DB[id]);
+    }
+}
+
+function showSecretToast(secret) {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast clickable';
+    toast.style.setProperty('--theme-color', 'var(--gold)');
+    toast.style.cursor = 'pointer';
+
+    toast.innerHTML = `
+        <div style="font-size: 2.2rem; margin-right: 15px; text-shadow: 0 0 10px var(--gold-glow);">🏆</div>
+        <div class="toast-text" style="color:var(--gold);"><b>¡Nuevo secreto desbloqueado!</b><br><span style="color:#fff">${secret.title}</span><br><span style="font-size:0.6rem; color:#aaa">(Clic para ver)</span></div>
+        <div class="toast-close" onclick="event.stopPropagation(); closeToast(this.parentElement)">&times;</div>
+        <div class="toast-progress"></div>
+    `;
+
+    toast.onclick = function(e) {
+        if (!e.target.classList.contains('toast-close')) {
+            openSecrets();
+            closeToast(toast);
+        }
+    };
+
+    container.appendChild(toast);
+    const timeout = setTimeout(() => { closeToast(toast); }, 4000);
+    toast.dataset.timeoutId = timeout;
+}
+
+function openSecrets() {
+    unreadSecretsCount = 0;
+    localStorage.setItem('unreadSecretsCount', 0);
+    updateSecretsBadge();
+
+    const list = document.getElementById('secrets-list');
+    list.innerHTML = '';
+    
+    Object.keys(SECRETS_DB).forEach(key => {
+        const secret = SECRETS_DB[key];
+        const isUnlocked = unlockedSecrets[key];
+        
+        const item = document.createElement('div');
+        item.className = 'secret-item' + (isUnlocked ? '' : ' locked');
+        
+        const imgSrc = isUnlocked ? secret.img : '1000015002.png'; 
+        const titleStr = isUnlocked ? secret.title : '???';
+        const descStr = isUnlocked ? secret.desc : 'Sigue explorando para desbloquear este secreto oculto.';
+        
+        item.innerHTML = `
+            <img src="${imgSrc}" class="secret-icon" ${!isUnlocked ? 'style="filter:brightness(0.2)"' : ''}>
+            <div class="secret-info">
+                <h4>${titleStr}</h4>
+                <p>${descStr}</p>
+            </div>
+        `;
+        list.appendChild(item);
+    });
+
+    const overlay = document.getElementById('secrets-overlay');
+    document.getElementById("secretsCard").style.top = "";
+    document.getElementById("secretsCard").style.left = "";
+    document.getElementById("secretsCard").style.transform = "";
+
+    overlay.style.display = 'flex';
+    setTimeout(() => overlay.classList.add('active'), 10);
+}
+
+function closeSecrets() {
+    const overlay = document.getElementById('secrets-overlay');
+    overlay.classList.remove('active');
+    setTimeout(() => overlay.style.display = 'none', 300);
+}
+
+function borrarSecretos() {
+    const overlay = document.getElementById('confirm-delete-overlay');
+    overlay.style.display = 'flex';
+    setTimeout(() => overlay.classList.add('active'), 10);
+}
+
+function cancelBorrarSecretos() {
+    const overlay = document.getElementById('confirm-delete-overlay');
+    overlay.classList.remove('active');
+    setTimeout(() => overlay.style.display = 'none', 300);
+}
+
+function confirmBorrarSecretos() {
+    localStorage.removeItem('unlockedSecrets');
+    localStorage.removeItem('unreadSecretsCount');
+    
+    unlockedSecrets = {};
+    unreadSecretsCount = 0;
+    
+    updateSecretsBadge();
+    checkSecretsVisibility();
+    openSecrets(); 
+    cancelBorrarSecretos();
+    
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.style.setProperty('--theme-color', '#ff4c4c');
+
+    toast.innerHTML = `
+        <div style="font-size: 2.2rem; margin-right: 15px; text-shadow: 0 0 10px rgba(255, 76, 76, 0.5);">🗑️</div>
+        <div class="toast-text" style="color:#ff4c4c;"><b>Limpieza completada</b><br><span style="color:#fff">Se han borrado los secretos.</span></div>
+        <div class="toast-close" onclick="closeToast(this.parentElement)">&times;</div>
+        <div class="toast-progress"></div>
+    `;
+
+    container.appendChild(toast);
+    const timeout = setTimeout(() => { closeToast(toast); }, 4000);
+    toast.dataset.timeoutId = timeout;
+}
+
+function dragElement(elmnt, header) {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (header) { header.onmousedown = dragMouseDown; } 
+  else { elmnt.onmousedown = dragMouseDown; }
+
+  function dragMouseDown(e) {
+    if(e.target.classList.contains('close-modal') || e.target.classList.contains('close-terminal')) return;
+    e.preventDefault();
+    pos3 = e.clientX; pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e.preventDefault();
+    pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
+    pos3 = e.clientX; pos4 = e.clientY;
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    elmnt.style.transform = "none"; 
+    elmnt.style.margin = "0"; 
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null; document.onmousemove = null;
+  }
+}
+
+dragElement(document.getElementById("terminalWindow"), document.getElementById("terminalHeader"));
+dragElement(document.getElementById("modalCard"), document.getElementById("modalHeader"));
+dragElement(document.getElementById("secretsCard"), document.getElementById("secretsHeader"));
+
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playBass() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -407,7 +628,7 @@ function comenzarDuelo() {
 
 function removeVote() {
   localStorage.removeItem('votoPuntoCero');
-  document.querySelectorAll('.vote-btn').forEach(btn => {
+  document.querySelectorAll('.fighter .vote-btn').forEach(btn => {
     btn.classList.remove('active');
     btn.innerText = 'VOTAR';
   });
@@ -415,6 +636,8 @@ function removeVote() {
 }
 
 function castVote(characterClass) {
+  if (localStorage.getItem('votoPuntoCero') === characterClass) return; 
+
   removeVote(); 
   const targetBtn = document.querySelector(`.${characterClass} .vote-btn`);
   if (targetBtn) {
@@ -441,15 +664,23 @@ function showToast(characterId) {
 
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
-    toast.className = 'toast';
+    toast.className = 'toast clickable';
     toast.style.setProperty('--theme-color', charData.color);
+    toast.style.cursor = 'pointer';
 
     toast.innerHTML = `
         <img src="${charData.img}" class="toast-img">
-        <div class="toast-text">Has establecido tu voto a <br><b>${charData.title}</b></div>
-        <div class="toast-close" onclick="closeToast(this.parentElement)">&times;</div>
+        <div class="toast-text">Has establecido tu voto a <br><b>${charData.title}</b><br><span style="font-size:0.6rem; color:#aaa">(Clic para ver info)</span></div>
+        <div class="toast-close" onclick="event.stopPropagation(); closeToast(this.parentElement)">&times;</div>
         <div class="toast-progress"></div>
     `;
+
+    toast.onclick = function(e) {
+        if (!e.target.classList.contains('toast-close')) {
+            openModal(characterId);
+            closeToast(toast);
+        }
+    };
 
     container.appendChild(toast);
     const timeout = setTimeout(() => { closeToast(toast); }, 4000);
@@ -469,6 +700,11 @@ function openModal(id) {
   document.getElementById('mText').innerText = p.text;
   document.getElementById('mImg').src = p.img;
   document.getElementById('modalCard').style.setProperty('--theme-color', p.color);
+  
+  document.getElementById("modalCard").style.top = "";
+  document.getElementById("modalCard").style.left = "";
+  document.getElementById("modalCard").style.transform = "";
+
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('active'), 10);
 }
@@ -487,13 +723,13 @@ function closeModal() {
   function resize(){ W=c.width=innerWidth; H=c.height=innerHeight; }
   function init(){
     ashes=[];
-    for(let i=0;i<80;i++) ashes.push({ x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-0.5)*1, vy:Math.random()*1+0.5, size:Math.random()*2, a:Math.random() });
+    for(let i=0;i<120;i++) ashes.push({ x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-0.5)*1.5, vy:Math.random()*1.5+0.5, size:Math.random()*2.5, a:Math.random() });
   }
   function draw(){
     ctx.clearRect(0,0,W,H);
     ashes.forEach(p=>{
       p.y -= p.vy; p.x += p.vx; if(p.y < -10) p.y = H+10;
-      ctx.fillStyle = `rgba(255,255,255,0.3)`;
+      ctx.fillStyle = `rgba(255,255,255,0.4)`;
       ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
     });
     requestAnimationFrame(draw);
@@ -555,6 +791,11 @@ function changeBackground(name, url) {
 
 function openTerminal() {
   const t = document.getElementById('terminal-overlay');
+  
+  document.getElementById("terminalWindow").style.top = "";
+  document.getElementById("terminalWindow").style.left = "";
+  document.getElementById("terminalWindow").style.transform = "";
+
   t.style.display = 'flex';
   setTimeout(() => { 
     t.classList.add('active'); 
@@ -624,18 +865,31 @@ function printTerminal(text, color = "#a0d8f5") {
 }
 
 function processCommand(cmd) {
+  // LÓGICA CÓDIGO KONAMI PARA MÓVILES DESDE LA TERMINAL
+  if (cmd === "arriba arriba abajo abajo izquierda derecha izquierda derecha b a start") {
+    if (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent)) {
+      unlockSecret('konami');
+      printTerminal("> ACCESO CONCEDIDO: Bien hecho, ahora disfruta de tu recompensa.", "var(--gold-glow)");
+    } else {
+      printTerminal("> Battlewoodiense, este comando es solo para dispositivos específicos. ", "#ff4c4c");
+    }
+    return;
+  }
+
   const args = cmd.split(' ').filter(Boolean);
   const base = args[0];
   const param = args.slice(1).join(' ');
 
   switch(base) {
     case 'help':
-      printTerminal("Comandos del sistema:\n/info [nombre], /putimg [fondo], /vote [rival], /quitvote [rival], /stopmsc, /startmsc, /music [epic|normal], clear");
+      printTerminal("Comandos del sistema:\n/info [nombre], /putimg [fondo], /vote [rival], /quitvote [rival], /stopmsc, /startmsc, /music [epic|normal], /talk, clear");
       break;
-    
+
     case '/info':
       if (param === 'battlewood') {
         printTerminal("El cinéfilo país Battlewood ha recibido varias anomalías últimamente debido a la inesperada aparición del Punto Cero e inmigrantes de otros planetas y universos. Para el planeta, era uno de los países más relajantes y al que todo el mundo iba a visitar, pero ahora es... una locura...", "#fff");
+      } else if (param === 'planeta') {
+        printTerminal("Nuestro planeta, Hera. Sabemos que antes era puro hielo, pero que ahora es un evolucionado planeta que gracias a las trabajadoras personas del pasado, pudieron hacer que Hera sea más habitable. Lamentablemente, fue corrompido por poderosas personas y ahora es un lugar de mala muerte...", "#fff");
       } else if (param === 'viajero') {
         printTerminal("SUJETO I: Viajero Oscuro. El primer ser en llegar de otro planeta o sistema. No se sabe si es una amenaza, o simplemente quiere los fragmentos del Punto Cero para poder salir del planeta. Los detectores avisan de que su nave está casi sin potencia, o sea que se piensa que es para eso.", "var(--viajero-color)");
       } else if (param === 'chavez') {
@@ -664,16 +918,16 @@ function processCommand(cmd) {
       break;
 
     case '/putimg':
-      /* CAMBIADO A .PNG COMO SOLICITASTE */
       const bgMap = { 'rivales': '1000014974.jpg', 'oscuridad': 'o.webp', 'hielo': 'ff.jpg', 'riqueza': 'rc.webp', 'fuckyouts': 'secret.png' };
       if (bgMap[param]) {
         changeBackground(param, bgMap[param]);
         printTerminal(`[OK] Fondo de página actualizado a: ${param.toUpperCase()}`, "var(--gold-glow)");
+        
+        if (param === 'fuckyouts') { unlockSecret('tim'); }
       } else {
         printTerminal("Error: Fondo no encontrado. Use: rivales, oscuridad, hielo, riqueza", "#ff4c4c");
       }
       break;
-
 
     case '/vote':
       let targetVote = param === 'chavez' || param === 'victor' ? 'blanco' : param;
@@ -715,12 +969,33 @@ function processCommand(cmd) {
       if (param === 'epic') {
         setMusicTrack('epic');
         printTerminal("[OK] Frecuencia de audio sobreescrita a: EPIC", "var(--gold-glow)");
+        unlockSecret('epic');
       } else if (param === 'normal') {
         setMusicTrack('normal');
         printTerminal("[OK] Frecuencia de audio restaurada a: NORMAL", "var(--gold-glow)");
       } else {
         printTerminal("Error: Pista no reconocida. Use: /music epic, /music normal", "#ff4c4c");
       }
+      break;
+
+    case '/talk':
+      let votoActual = localStorage.getItem('votoPuntoCero');
+      if (!votoActual) {
+        printTerminal("> ERROR DE CONEXIÓN: Aún no has jurado lealtad (votado) por ningún rival.", "#ff4c4c");
+      } else {
+        if (votoActual === 'viajero') {
+          printTerminal("> [VIAJERO OSCURO]: 'No esperaba el apoyo de un ser de este pequeño planeta, normalmente aquí los inmigrantes no son aceptados. Supongo que te parecerá bien que consiga los fragmentos, como ya sabes, este planeta no estaba destinado en mis pensamientos, pero por la falta de energía a mi nave, he tenid ola obligación de alojarme aquí... y encima, he recibido enemigos... Lo que ellos no saben, es que pertenezco a un equipo de cazarrecompensas de mi planeta natal, uno muy poderoso...'", "var(--viajero-glow)");
+        } else if (votoActual === 'blanco') {
+          printTerminal("> [VICTOR CHÁVEZ]: 'Has apostado bien, camarada. Tu elección podría significar la victoria de esta rivalidad, y la obtención de los fragmentos para poder tener planes futuros beneficiosos para los me hayan votado... como una vida clasista, en donde nunca más habría problemas económicos. Podríamos hacer que la empresa Deca, fundada por mi fallecido abuelo Emilio Chávez, creciera en todos los sentidos, y obtener la igualdad en la sociedad de este país.'", "var(--white-glow)");
+        } else if (votoActual === 'rey') {
+          printTerminal("> [REY HELADO]: 'Bien hecho. Requieres de un planeta helado, en donde habitantes como el país de Battlewood, quieran hacer trabajos para mí, y así obtener un mundo más justo que el de ahora. También pensarás que las otras dos amenazas, no tienen la capacidad de pensar en lo que están metidos, o sea, la obtención de los fragmentos. Estoy sumamente capacitado de darle un uso lógico a esos fragmentos, y no simplemente quedarmelos como colección. Quiero reinciar todo, y fundar mi propia sociedad en todo este planeta...'", "var(--cel-glow)");
+        }
+      }
+      break;
+
+    case '/secret':
+      printTerminal("> Ejecutando protocolo fantasma...", "var(--gold-glow)");
+      unlockSecret('prometeus');
       break;
 
     case 'clear':
@@ -733,6 +1008,9 @@ function processCommand(cmd) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  updateSecretsBadge();
+  checkSecretsVisibility();
+
   const votoGuardado = localStorage.getItem('votoPuntoCero');
   if (votoGuardado) {
     const fighterDiv = document.querySelector(`.${votoGuardado}`);
@@ -754,6 +1032,28 @@ window.addEventListener('DOMContentLoaded', () => {
     changeBackground(localStorage.getItem('userBackgroundName'), savedBg); 
     updatePreview(savedBg); 
   }
+});
+
+/* --- LÓGICA DEL CÓDIGO KONAMI --- */
+let konamiPC = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a', ' '];
+let konamiPCIndex = 0;
+
+function checkKonamiPC(key) {
+    if (key === konamiPC[konamiPCIndex] || key.toLowerCase() === konamiPC[konamiPCIndex]) {
+        konamiPCIndex++;
+        if (konamiPCIndex === konamiPC.length) {
+            // Se desbloquea única y exclusivamente el secreto
+            unlockSecret('konami');
+            konamiPCIndex = 0;
+        }
+    } else {
+        konamiPCIndex = 0;
+    }
+}
+
+// Escuchador global de teclado en PC
+window.addEventListener('keydown', (e) => {
+  checkKonamiPC(e.key);
 });
 </script>
 </body>
