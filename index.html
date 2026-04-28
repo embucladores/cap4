@@ -93,7 +93,7 @@ html, body {
   50% {transform: translateY(-15px);} 
 }
 
-/* Scroll Global Activado (Corregido: Aplicado a html y body) */
+/* Scroll Global Activado */
 html.global-scroll-active,
 body.global-scroll-active { 
   overflow-y: auto !important; 
@@ -278,13 +278,30 @@ body.global-scroll-active .section {
 /* ---------------- SECCIÓN: PERSONAJES ---------------- */
 .section-title { font-size: 2rem; color: #fff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 10px var(--theme-glow); text-align: center; border-bottom: 2px solid var(--theme-main); padding-bottom: 10px;}
 
-.char-filters { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
+.char-filters { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; align-items: center;}
 .filter-btn {
   padding: 10px 25px; font-family: var(--font-main); font-size: 1rem; font-weight: bold; text-transform: uppercase;
-  background: transparent; color: var(--theme-main); border: 2px solid var(--theme-main); border-radius: 6px; transition: 0.3s;
+  background: transparent; color: var(--theme-main); border: 2px solid var(--theme-main); border-radius: 6px; transition: 0.3s; cursor: pointer;
 }
 .filter-btn:hover { background: rgba(201, 162, 39, 0.2); box-shadow: 0 0 15px var(--theme-glow); }
 .filter-btn.active { background: var(--theme-main); color: #000; box-shadow: 0 0 20px var(--theme-glow); }
+
+/* --- DROPDOWN FILTROS MENSAJES --- */
+.dropdown-wrapper { position: relative; display: inline-flex; align-items: center; }
+.dropdown-menu {
+  display: none; position: absolute; top: calc(100% + 5px); left: 0;
+  background: var(--panel-bg); border: 1px solid var(--theme-main); border-radius: 6px;
+  padding: 10px; z-index: 200; min-width: 180px; flex-direction: column; gap: 5px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+.dropdown-menu.show { display: flex; animation: fadeIn 0.2s; }
+.dropdown-title { font-size: 0.75rem; color: #888; text-transform: uppercase; margin: 5px 0 2px; border-bottom: 1px solid var(--border-light); padding-bottom: 4px; font-weight: bold; }
+.dropdown-btn {
+  background: transparent; border: none; color: #ddd; text-align: left; padding: 6px 10px;
+  font-family: var(--font-text); font-size: 1rem; cursor: pointer; border-radius: 4px; transition: 0.2s; font-weight: 500;
+}
+.dropdown-btn:hover { background: rgba(255,255,255,0.05); color: #fff; }
+.dropdown-btn.active { background: rgba(201, 162, 39, 0.15); color: var(--theme-main); font-weight: bold; }
 
 .char-card {
   width: 100%; max-width: 900px; background: var(--panel-bg); border: 1px solid var(--border-light); border-radius: 12px;
@@ -550,7 +567,7 @@ input:checked + .slider-toggle:before { transform: translateX(26px); }
 
 <button id="settings-btn" onclick="openSettings()" title="Características">⚙️</button>
 <button id="show-nav-btn" onclick="toggleNav()" title="Mostrar Navegación">▼</button>
-<button id="scroll-top-btn" onclick="scrollToTop()" title="Subir Arriba">⬆️</button>
+<button id="scroll-top-btn" onclick="scrollToTop()" title="Subir Arriba">▲</button>
 
 <div class="top-nav-wrapper" id="top-nav">
   <button class="toggle-nav-btn" onclick="toggleNav()" title="Ocultar Navegación">▲</button>
@@ -637,12 +654,51 @@ input:checked + .slider-toggle:before { transform: translateX(26px); }
   <div class="section" id="sec-mensajes">
     <h1 class="section-title">Bandeja de Mensajes</h1>
     <div class="msg-container" id="msg-container">
-<div class="char-filters">
-  <button id="toggle-all-btn" class="filter-btn active" onclick="toggleAllMsg()">Expandir mensajes</button>
-</div>
+      <div class="char-filters" style="justify-content: flex-start;">
+        <button id="toggle-all-btn" class="filter-btn active" onclick="toggleAllMsg()">Expandir mensajes</button>
+        
+        <div class="dropdown-wrapper">
+          <button class="filter-btn" onclick="toggleMsgDropdown(event)">Filtros ▼</button>
+          <div id="msg-dropdown" class="dropdown-menu">
+            <div class="dropdown-title">Ordenar</div>
+            <button class="dropdown-btn sort-btn active" id="sort-desc" onclick="sortMessages('desc')">Recientes primero</button>
+            <button class="dropdown-btn sort-btn" id="sort-asc" onclick="sortMessages('asc')">Antiguos primero</button>
+            
+            <div class="dropdown-title">Temática</div>
+            <button class="dropdown-btn theme-btn active" id="filter-todos" onclick="filterMessages('todos')">Todos</button>
+            <button class="dropdown-btn theme-btn" id="filter-incursion" onclick="filterMessages('incursion')">Incursión</button>
+            <button class="dropdown-btn theme-btn" id="filter-conflicto" onclick="filterMessages('conflicto')">Conflicto Cero</button>
+          </div>
+        </div>
+      </div>
 
-      <div class="msg-card" id="msg-1">
-        <div class="msg-header" onclick="toggleMsg('msg-1')">
+      <div class="msg-card" id="msg-3" data-order="3" data-theme="incursion">
+        <div class="msg-header" onclick="toggleMsg('msg-3')">
+          <div class="msg-title">Transmisión sobre anomalías: Final</div>
+          <div class="msg-controls"><div class="msg-arrow">▼</div></div>
+        </div>
+        <div class="msg-body">
+          <p class="msg-text">Hola "señor Centro de Ayuda",<br>
+            ya he escuchado a la perfección su comunicación al respecto de la muerte repentinta de Marra, me siento muy mal por no cuidarlo durante estos meses... pero supongo que era su destino... 
+En el tema del funeral de Marra... no sé si a la gente de esta isla, o a los mismos conocidos les parecerá bien gastarse algo de barras para hacer un funeral de alguien que ha matado a miles de personas a lo largo de su vida... pero viendo su historia de redención desde que regreso a nuestra realidad, yo creo que se lo merece. 
+Obviamente tendré que informarle a los Siete, y a compañeros de mi antiguo trabajo como Embuclador, lo cual será difícil... ya que no se donde se encuentran exactamente, pero ya me las apañaré. 
+También, una cosa que hay que tener en cuenta, es del lugar en donde se hará el funeral. La isla últimamente ha estado con anomalías parpadeantes que han alterado la forma, y eso me preocupa... no me atrevo a tocarlas. Así que porfavor, hacedm----..-.-.-.-..-.....-.-.-.
+<br><br>
+<p class="msg-text">--------------................._..
+  <br><br>
+<p class="msg-text">...
+<br><br>
+<span class="spoiler" onclick="this.classList.toggle('revealed')">  Esto... cada vez va a peor... las alteraciones temporales de elementos cada vez son más inestables y más peligrosas, hasta el punto de que están afectando mi presencia en este universo... como si estuviera dañado. Pero aún me puedo mantener... y decir que el final está más cerca de lo que predije hace años...
+La única opción para salir de aquí, es utilizando el Reloj Inter-Realidad de Pentaqus, que con suerte, podrá llevarse a varios habitantes de todas las realidades, o lo que pueda...
+Se que eso parece poco, pero conservará el legado del universo que creó Prometeus, y podremos llevarlo a otros universos distantes...  </span></p>
+<br>
+      <img src="marra.webp" alt="cyclo" style="width: 100%; max-width: 700px; height: 400px; aspect-ratio: 16/9; border-radius: 5%; margin-bottom: 10px; margin: auto; display: block;">
+        </div>
+      </div>
+
+
+      <div class="msg-card" id="msg-2" data-order="2" data-theme="incursion">
+        <div class="msg-header" onclick="toggleMsg('msg-2')">
           <div class="msg-title">Transmisión sobre anomalías #2</div>
           <div class="msg-controls"><div class="msg-arrow">▼</div></div>
         </div>
@@ -665,9 +721,9 @@ Algunas muertes de sujetos importantes, y acciones de otros, han causado este gr
         </div>
       </div>
 
-            <div class="msg-card" id="msg-2">
-        <div class="msg-header" onclick="toggleMsg('msg-2')">
-          <div class="msg-title">Transmisión sobre anomalías</div>
+      <div class="msg-card" id="msg-1" data-order="1" data-theme="incursion">
+        <div class="msg-header" onclick="toggleMsg('msg-1')">
+          <div class="msg-title">Transmisión sobre anomalías #1</div>
           <div class="msg-controls"><div class="msg-arrow">▼</div></div>
         </div>
         <div class="msg-body">
@@ -777,7 +833,7 @@ if (window.matchMedia("(min-width: 769px)").matches) {
   animateFollower();
 
   const addHoverEffects = () => {
-    document.querySelectorAll('button, a, input, .nav-item, .msg-header, .spoiler').forEach(el => {
+    document.querySelectorAll('button, a, input, .nav-item, .msg-header, .spoiler, .dropdown-btn').forEach(el => {
       if(!el.dataset.hoverBound) {
         el.addEventListener('mouseenter', () => follower.classList.add('cursor-hover'));
         el.addEventListener('mouseleave', () => follower.classList.remove('cursor-hover'));
@@ -791,7 +847,6 @@ if (window.matchMedia("(min-width: 769px)").matches) {
 
 // Función para actualizar el estado visual del menú según el scroll
 function updateActiveNavOnScroll() {
-  // Solo se ejecuta si el modo global scroll está activo
   if (!document.body.classList.contains('global-scroll-active')) return;
 
   const sections = ['inicio', 'personajes', 'duelo', 'mensajes'];
@@ -801,14 +856,12 @@ function updateActiveNavOnScroll() {
     const section = document.getElementById('sec-' + id);
     if (section) {
       const rect = section.getBoundingClientRect();
-      // Si el tope de la sección está cerca de la parte superior de la ventana
       if (rect.top <= 150) { 
         currentSection = id;
       }
     }
   });
 
-  // Quitar clase activa a todos y ponerla al actual
   document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.remove('active');
     if (item.id === 'nav-' + currentSection) {
@@ -817,14 +870,13 @@ function updateActiveNavOnScroll() {
   });
 }
 
-// Escuchar el evento de scroll en la ventana
 window.addEventListener('scroll', updateActiveNavOnScroll);
 
 // --- BASE DE DATOS DE PERSONAJES ---
 const charData = {
   viajero: { category: "amenazas", id: "viajero", name: "Viajero Oscuro", subtitle: "Visitante malicioso de otro mundo", img: "./viajero.png", color: "var(--viajero-color)", desc: "Variante del Viajero del Universo Cero. Esta vez, va por solitario con su nave, llegando así al país de Battlewood. Ya que quiere hacerse con los fragmentos divididos del Punto Cero para poder potenciar su nave, y poder huir hacia otros planetas... según él..." },
   victor: { category: "amenazas", id: "victor", name: "Victor Chávez", subtitle: "Magnate con reputación dudosa", img: "./victor.png", color: "var(--blanco-color)", desc: "Un hombre que le sobra el dinero debido a sus amañadas salas de juegos de apuesta, y a su oculto negocio de contrabando... el Punto Cero le ha hecho efecto a su cuerpo, y lo necesita para buscar una solución para arreglarse. Con métodos dudosos, obviamente." },
-  rey: { category: "amenazas", id: "rey", name: "Rey Helado", subtitle: "Soberano del Reino de Hielo", img: "./rey.png", color: "var(--rey-color)", desc: "Variante del Rey Helado del Universo Cero. Esta vez, es el malvado rey del Reino Helado, y no podía no aprovecharse de la oportunidad de conseguir los fragmentos divididos de algo muy poderoso... Por eso, llegó al país acompañado de un glaciar con su castillo." },
+  rey: { category: "amenazas", id: "rey", name: "Rey Helado", subtitle: "Soberano del Reino de Hielo", img: "./rey.png", color: "var(--rey-color)", desc: "Variante del Rey Helado del Universo Cero. Esta vez, es el malvado rey del Reino de Hielo, y no podía no aprovecharse de la oportunidad de conseguir los fragmentos divididos de algo muy poderoso... Por eso, llegó al país acompañado de un glaciar con su castillo." },
   
   embuclador1: { category: "embucladores", id: "embuclador1", name: "El Visitante", subtitle: "El mejor piloto de cohetes de los Siete, en su universo...", img: "./visitante.png", color: "#2A41C9", desc: "Nuestro querido compañero Visitante, también llamado Peter, ha sido uno de los elegidos en sobrevivir y viajar a otro universo. El problema de eso, es que ahora el espacio exterior para él, es completamente desconocido... Pero mira lo bueno, sigue siendo un visitante de otro mundo." },
   embuclador2: { category: "embucladores", id: "embuclador2", name: "La Fundación", subtitle: "Líder de los Siete, hace años...", img: "./fundacion.png", color: "#B6C21B", desc: "Después de tantos años de liderazgo y de proteger la realidad, la Fundación ya había asumido su retiro, teniendo una vida en paz después de siglos. Aunque no le duró mucho eso, ya que fue uno de los que sobrevivieron, y ahora tendrá que lidiar con otras amenazas con los Fragmentos del Punto Cero, y sin tener suficiente tecnología para enfrentarlos." },
@@ -834,7 +886,7 @@ const charData = {
 
 const musicTracks = [
   { id: 't1', title: 'Tema del Capítulo 4', desc: 'Dale a reproducir, y busca los Fragmentos.', src: './Fortnite.mp3', img: './intro.png' },
-  { id: 't2', title: 'Rivalidad', desc: 'Estamos metidos en medio de una gran rivalidad....', src: './rival.mp3', img: './rivalnormal.jpg' },
+  { id: 't2', title: 'Rivalidad', desc: 'Todo por el poder.', src: './rival.mp3', img: './rivalnormal.jpg' },
   { id: 't3', title: 'En acción', desc: 'Esto es más que conservar los fragmentos.', src: './epic.mp3', img: './rivalepico.png' },
   { id: 't4', title: 'Una nueva aventura', desc: 'Nuevo mundo, nuevo universo.', src: './aventura.mp3', img: './aventura.webp' }
 ];
@@ -869,6 +921,58 @@ function checkNewMessages() {
   }
 }
 
+// --- GESTIÓN DE FILTROS Y ORDEN DE MENSAJES ---
+function toggleMsgDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('msg-dropdown').classList.toggle('show');
+}
+
+window.addEventListener('click', (e) => {
+  const drop = document.getElementById('msg-dropdown');
+  if (drop && drop.classList.contains('show') && !e.target.closest('.dropdown-wrapper')) {
+    drop.classList.remove('show');
+  }
+});
+
+function sortMessages(order) {
+  const container = document.getElementById('msg-container');
+  const msgs = Array.from(container.querySelectorAll('.msg-card'));
+  const footer = container.querySelector('.msg-footer-text');
+  
+  msgs.sort((a, b) => {
+    const valA = parseInt(a.getAttribute('data-order'));
+    const valB = parseInt(b.getAttribute('data-order'));
+    return order === 'asc' ? valA - valB : valB - valA;
+  });
+  
+  msgs.forEach(msg => container.insertBefore(msg, footer));
+
+  document.querySelectorAll('.dropdown-btn.sort-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('sort-' + order).classList.add('active');
+}
+
+function filterMessages(theme) {
+  const msgs = document.querySelectorAll('.msg-card');
+  msgs.forEach(msg => {
+    if (theme === 'todos' || msg.getAttribute('data-theme') === theme) {
+      msg.style.display = 'block'; 
+    } else {
+      msg.style.display = 'none';
+    }
+  });
+
+  document.querySelectorAll('.dropdown-btn.theme-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('filter-' + theme).classList.add('active');
+  
+  const visibleMsgs = Array.from(msgs).filter(m => m.style.display !== 'none').length;
+  const footer = document.querySelector('.msg-footer-text');
+  if (visibleMsgs === 0) {
+    footer.innerText = "No hay mensajes en esta categoría.";
+  } else {
+    footer.innerText = "Por ahora solo están estos mensajes.";
+  }
+}
+
 // --- INICIALIZACIÓN Y CARGA ---
 window.onload = () => {
   let bar = document.getElementById('load-bar');
@@ -899,14 +1003,12 @@ function navTo(sectionId) {
   document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
   event.currentTarget.classList.add('active');
 
-  // Si está el global-scroll activo, simplemente deslizamos en la misma página
   if (document.body.classList.contains('global-scroll-active')) {
     const target = document.getElementById('sec-' + sectionId);
     if(target) target.scrollIntoView({ behavior: 'smooth' });
     return;
   }
 
-  // Comportamiento normal (una sección por página)
   document.querySelectorAll('.section').forEach(el => {
     el.classList.remove('active');
     setTimeout(() => { if(!el.classList.contains('active')) el.scrollTop = 0; }, 500);
@@ -939,11 +1041,9 @@ function handleScrollEvent(targetElement) {
 }
 
 function initScrollListener() {
-  // Lógica para cada sección si no estamos en global
   document.querySelectorAll('.section').forEach(sec => {
     sec.addEventListener('scroll', (e) => handleScrollEvent(e.target));
   });
-  // Lógica de Window por si activas el scroll global
   window.addEventListener('scroll', () => handleScrollEvent(document.documentElement));
 }
 
@@ -956,7 +1056,6 @@ function scrollToTop() {
   }
 }
 
-// Mostrar botón para subir dentro de la terminal en móviles
 function handleTermScroll() {
   const out = document.getElementById('term-out');
   const btn = document.getElementById('term-scroll-top-btn');
@@ -1200,7 +1299,6 @@ let historyIndex = -1;
 function termPrint(txt, col="#a0d8f5") {
   const out = document.getElementById('term-out');
   out.innerHTML += `<div style="color:${col}; margin-bottom:5px; font-family:monospace;">${txt}</div>`;
-  // Scroll automatico al escribir un comando
   out.scrollTop = out.scrollHeight;
 }
 
@@ -1283,7 +1381,6 @@ function runCmd() {
       removeVote(); termPrint("Voto reseteado.", "var(--theme-main)");
       break;
     case '/globalscroll':
-      // Modificación para aplicar la clase a document.documentElement también
       document.body.classList.toggle('global-scroll-active');
       document.documentElement.classList.toggle('global-scroll-active');
       
