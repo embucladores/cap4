@@ -247,6 +247,17 @@ body.global-scroll-active .section {
   #settings-btn { display: none !important; }
   #settings-btn-mobile { display: flex; }
   #scroll-top-btn { width: 40px; height: 40px; font-size: 1.2rem; bottom: 15px; right: 15px; }
+  
+  /* Ajustes corregidos para móvil (Títulos y Espaciados) */
+  .section-title { 
+    font-size: 1.35rem !important; 
+    letter-spacing: 1px !important; 
+    line-height: 1.4 !important; 
+    padding-bottom: 15px !important;
+  }
+  .duelo-wrapper { 
+    padding: 25px 15px !important; 
+  }
 }
 
 .app-container {
@@ -1583,7 +1594,7 @@ function drawPart(){
     if(p.y < -10) p.y = H+10;
     if(p.x < -10) p.x = W+10;
     if(p.x > W+10) p.x = -10;
-    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, Math.PI*2); ctx.fill();
   });
 }
 window.onresize=()=>{resize(); initPart();};
